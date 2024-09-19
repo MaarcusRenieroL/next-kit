@@ -1,3 +1,5 @@
 #!/usr/bin/env node
 
-console.log("Hello")
+import { printIntroMessage } from "./utils/message";
+
+printIntroMessage()

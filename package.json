@@ -4,7 +4,7 @@
   "description": "A CLI built using Node JS and TypeScript to build Next.js projects easily",
   "main": "src/index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "tsx --watch src/index.ts"
   },
   "devDependencies": {
     "tsx": "^4.7.1"
@@ -13,6 +13,7 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
+    "chalk": "^5.3.0",
     "ts-node-dev": "^2.0.0"
   },
   "repository": {
