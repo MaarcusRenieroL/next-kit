@@ -2,6 +2,7 @@
 
 import { printIntroMessage } from "./utils/message";
 import { Command } from "commander";
+import { init } from "./commands";
 
 const program = new Command();
 program.name("CLI").description("A CLI to get started with your next Next.js Project").version("1.0.0");
@@ -12,16 +13,7 @@ program
 	.arguments("[project-name]")
 	.description("Default: Initialize a new project")
 	.action(async (projectName, options) => {
-		console.log("Commander Initialized")
-	});
-
-program
-	.command("init")
-	.description("Initialize a new project")
-	.argument("[project-name]", "Name of the project")
-	.option("--package-manager <pm>", "Specify the package manager to use (npm, pnpm, yarn, bun)")
-	.action(async (projectName, options) => {
-		console.log("Commander Initialized")
+		await init({ ...options, projectName });
 	});
 
 program.parse(process.argv);
