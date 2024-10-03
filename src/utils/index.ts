@@ -186,3 +186,14 @@ export function createDirIfNotExists(dirName: string) {
 		mkdirSync(dirName);
 	}
 }
+
+export function createDirectory(path: string) {
+	const dirs = path.split("/");
+	let currentPath = "";
+	for (const dir of dirs) {
+		currentPath = currentPath ? `${currentPath}/${dir}` : dir;
+		if (!existsSync(currentPath)) {
+			mkdirSync(currentPath);
+		}
+	}
+}
