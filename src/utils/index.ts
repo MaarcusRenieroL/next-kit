@@ -1,12 +1,10 @@
 import { execSync } from 'child_process';
-import { chdir } from 'process';
 import chalk from "chalk";
 
 import { CLIOptions } from "../types";
 import { existsSync, mkdirSync, writeFileSync } from "fs";
 
-export function getInitCommand(packageManager: string, directory: string): string {
-	chdir(directory);
+export function getInitCommand(packageManager: string): string {
 	switch (packageManager) {
 		case "npm":
 			console.log("Npm init command")

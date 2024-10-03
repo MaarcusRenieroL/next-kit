@@ -4,9 +4,11 @@ import { input, select } from "@inquirer/prompts";
 
 import { CLIOptions, PackageManager, PackageManagerX } from "../types";
 import { exit, printSuccessMessage } from "../utils/message";
-import { getPackageList, installPackages } from "../utils";
+import { getInitCommand, getPackageList, installPackages } from "../utils";
 import { createNextApp } from "../packages/next";
 import { chdir } from "process";
+import { createAPIs } from "../packages/api";
+import { execSync } from "child_process";
 
 const packageManagerXMap: Record<PackageManager, PackageManagerX> = {
 	yarn: "yarn", npm: "npx", pnpm: "pnpx", bun: "bunx",
@@ -296,14 +298,19 @@ export async function init(options: CLIOptions) {
 				
 				chdir(targetDir);
 				console.log("Initializing node...")
+				execSync(getInitCommand(options.packageManager), { stdio: "ignore" })
 				
 				console.log(`Installing dependencies: ${object.dependencies.join(', ')}`);
-				await installPackages(object.dependencies, options.packageManager, false);
+				// await installPackages(object.dependencies, options.packageManager, false);
 				
 				console.log(`Installing dev dependencies: ${object.devDependencies.join(', ')}`);
-				await installPackages(object.devDependencies, options.packageManager, true);
+				// await installPackages(object.devDependencies, options.packageManager, true);
 				
 				await createNextApp(options);
+				
+				if (options.api) {
+					await createAPIs(options)
+				}
 			} catch (error) {
 				console.error("Failed to install packages:", error);
 				exit();

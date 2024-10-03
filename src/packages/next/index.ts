@@ -13,7 +13,7 @@ import {
 } from "./file-contents";
 import { chdir } from "process";
 import { createDirIfNotExists, createFileIfNotExists } from "../../utils";
-import { writeFileSync, readFileSync } from "fs";
+import { writeFileSync, readFileSync, existsSync } from "fs";
 
 export async function createNextApp(options: CLIOptions) {
 	const { tailwind, directory } = options;
@@ -48,7 +48,15 @@ export async function createNextApp(options: CLIOptions) {
 		createFileIfNotExists('globals.css', cssContent);
 	}
 	
+	console.log("Current page" + process.cwd())
+	
 	chdir("../../")
+	
+	console.log("Current page" + process.cwd())
+	
+	if (existsSync("package.json")) {
+		console.log("Package.json already exists. Skipping creation.");
+	}
 	
 	const packageJson = JSON.parse(readFileSync("package.json", 'utf8'));
 	
