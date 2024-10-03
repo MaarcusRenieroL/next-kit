@@ -1,7 +1,6 @@
 // api
 
-export const restAPIContent = `
-export const GET = async () => {
+export const restAPIContent = `export const GET = async () => {
   try {
     return generateSuccessMessage("Sample GET API", 200);
   } catch (error) {
@@ -37,12 +36,11 @@ export const DELETE = async (
     return generateErrorMessage({ error }, 500);
   }
 };
-`
+`;
 
 // trpc
 
-export const trpcContent = `
-import { initTRPC, TRPCError } from "@trpc/server";
+export const trpcContent = `import { initTRPC, TRPCError } from "@trpc/server";
 import superjson from "superjson";
 import type { FetchCreateContextFnOptions } from "@trpc/server/adapters/fetch";
 
@@ -70,10 +68,9 @@ const t = initTRPC.context<typeof createTRPCContext>().create({
 export const router = t.router;
 export const publicProcedure = t.procedure;
 
-`
+`;
 
-export const indexTrpcContent = `
-import type { inferReactQueryProcedureOptions } from "@trpc/react-query";
+export const indexTrpcContent = `import type { inferReactQueryProcedureOptions } from "@trpc/react-query";
 import type { inferRouterInputs, inferRouterOutputs } from "@trpc/server";
 import { router } from "./trpc";
 import { userRouter } from "./routers/users";
@@ -84,10 +81,9 @@ export type AppRouter = typeof appRouter;
 export type ReactQueryOptions = inferReactQueryProcedureOptions<AppRouter>;
 export type RouterInputs = inferRouterInputs<AppRouter>;
 export type RouterOutputs = inferRouterOutputs<AppRouter>;
-`
+`;
 
-export const usersRouterContent = `
-import { router, publicProcedure } from "../trpc";
+export const usersRouterContent = `import { router, publicProcedure } from "../trpc";
 import { TRPCError } from "@trpc/server";
 
 export const userRouter = router({
@@ -97,10 +93,9 @@ export const userRouter = router({
 		};
 	});
 })
-`
+`;
 
-export const trpcRouteContent = `
-import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
+export const trpcRouteContent = `import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
 import { appRouter } from "~/server/index";
 
 const handler = (req: Request) =>
@@ -113,10 +108,9 @@ const handler = (req: Request) =>
 
 export { handler as GET, handler as POST };
 
-`
+`;
 
-export const trpcProviderContent = `
-"use client";
+export const trpcProviderContent = `"use client";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { httpBatchLink } from "@trpc/client";
@@ -148,10 +142,9 @@ export const TRPCProvider: FC<Props> = ({ children }) => {
   );
 };
 
-`
+`;
 
-export const providerContent = `
-import type { FC, ReactNode } from "react";
+export const providerContent = `import type { FC, ReactNode } from "react";
 import { TRPCProvider } from "./trpc-provider";
 
 export const Providers: FC = () => {
@@ -161,4 +154,5 @@ export const Providers: FC = () => {
     </TRPCProvider>
   );
 };
-`
+`;
+

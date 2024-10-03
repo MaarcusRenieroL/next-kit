@@ -1,26 +1,22 @@
-export const nextEnvDTSFileContents = `
-/// <reference types="next" />
+export const nextEnvDTSFileContents = `/// <reference types="next" />
 /// <reference types="next/image-types/global" />
 
 // NOTE: This file should not be edited
 // see https://nextjs.org/docs/basic-features/typescript for more information.
-`
+`;
 
-export const nextConfigMJSFileContents = `
-/** @type {import('next').NextConfig} */
+export const nextConfigMJSFileContents = `/** @type {import('next').NextConfig} */
 const nextConfig = {};
 
 export default nextConfig;
-`
+`;
 
-export const eslintricJSONFileContents = `
-{
+export const eslintricJSONFileContents = `{
   "extends": "next/core-web-vitals"
 }
-`
+`;
 
-export const tsconfigJSONFileContents = `
-{
+export const tsconfigJSONFileContents = `{
   "compilerOptions": {
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
@@ -47,20 +43,18 @@ export const tsconfigJSONFileContents = `
   "exclude": ["node_modules"]
 }
 
-`
+`;
 
-export const pageTsxFileContentWithTailwind = `
-export default function Page() {
+export const pageTsxFileContentWithTailwind = `export default function Page() {
 	return (
 		<div className="w-full h-full flex items-center justify-center">
 			<h1>hello world</h1>
 		</div>
 	)
 }
-`
+`;
 
-export const layoutTsxFileContentWithTailwind = `
-import type { Metadata } from "next";
+export const layoutTsxFileContentWithTailwind = `import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
 
@@ -89,20 +83,18 @@ export default async function RootLayout({
   );
 }
 
-`
+`;
 
-export const pageTsxFileContent = `
-export default function Page() {
+export const pageTsxFileContent = `export default function Page() {
 	return (
 		<div className="main">
 			<h1>hello world</h1>
 		</div>
 	)
 }
-`
+`;
 
-export const layoutTsxFileContent = `
-import type { Metadata } from "next";
+export const layoutTsxFileContent = `import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
 
@@ -131,10 +123,9 @@ export default async function RootLayout({
   );
 }
 
-`
+`;
 
-export const globalsCssFile = `
-html, body, :root {
+export const globalsCssFile = `html, body, :root {
   height: 100%;
 }
 
@@ -162,16 +153,9 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
-}
+`;
 
-`
-
-export const globalsCssFileWithTailwind = `
-@tailwind base;
+export const globalsCssFileWithTailwind = `@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
@@ -209,10 +193,9 @@ body {
   }
 }
 
-`
+`;
 
-export const tailwindConfigContent = `
-import type { Config } from "tailwindcss";
+export const tailwindConfigContent = `import type { Config } from "tailwindcss";
 
 const config: Config = {
   content: [
@@ -232,10 +215,9 @@ const config: Config = {
 };
 export default config;
 
-`
+`;
 
-export const postcssConfigContent = `
-/** @type {import('postcss-load-config').Config} */
+export const postcssConfigContent = `/** @type {import('postcss-load-config').Config} */
 const config = {
   plugins: {
     tailwindcss: {},
@@ -244,10 +226,9 @@ const config = {
 
 export default config;
 
-`
+`;
 
-export const gitignoreContents = `
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+export const gitignoreContents = `# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
 /node_modules
@@ -289,4 +270,5 @@ package-lock.json
 yarn-lock.json
 pnpm-lock.yaml
 
-`
+`;
+
