@@ -1,5 +1,6 @@
 import chalk from "chalk";
 import boxen from "boxen";
+import { join } from "path";
 
 export function printIntroMessage() {
 	const message = `
@@ -22,12 +23,12 @@ export function exit() {
 	process.exit(0);
 }
 
-export function printSuccessMessage(projectName: string, packageManager: string) {
+export function printSuccessMessage(projectName: string, packageManager: string, targetDir: string) {
 	const message = `
 ${chalk.greenBright('Project setup complete!')}
 ${chalk.yellow('Thanks for using the CLI!')}
 ${chalk.cyan('Next steps:')}
-${chalk.green('1. Navigate to the project directory:')} ${chalk.bold(projectName)}
+${chalk.green('1. Navigate to the project directory:')} ${chalk.bold(join(targetDir, projectName))}
 ${chalk.green('2. Run the following command to start your project:')} ${chalk.bold(`${packageManager} run dev`)}
 ${chalk.green('3. Visit http://localhost:3000 in your browser to see your app.')}
 ${chalk.magenta('Happy coding!')}

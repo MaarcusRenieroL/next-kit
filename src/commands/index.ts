@@ -1,12 +1,20 @@
-import { CLIOptions, PackageManager, PackageManagerX } from "../types";
+import { mkdirSync } from "fs";
+import { join } from "path";
+
 import { input, select } from "@inquirer/prompts";
+
+import { CLIOptions, PackageManager, PackageManagerX } from "../types";
 import { exit, printSuccessMessage } from "../utils/message";
+import { getInitCommand, getPackageList, installPackages } from "../utils";
+import { execSync } from "child_process";
 
 const packageManagerXMap: Record<PackageManager, PackageManagerX> = {
 	yarn: "yarn", npm: "npx", pnpm: "pnpx", bun: "bunx",
 };
 
 export async function init(options: CLIOptions) {
+	
+	let projectPath = ""
 	
 	if (!options.projectName) {
 		try {
@@ -18,6 +26,19 @@ export async function init(options: CLIOptions) {
 					return "Project name cannot be empty!";
 				},
 			});
+		} catch (error) {
+			exit();
+		}
+	}
+	
+	if (!options.targetDir) {
+		try {
+			options.targetDir = await input({
+				message: "Where do you want to create the project? (path) ›",
+				default: process.cwd(),
+			});
+			
+			projectPath = options.targetDir + "/" + options.projectName
 		} catch (error) {
 			exit();
 		}
@@ -249,6 +270,13 @@ export async function init(options: CLIOptions) {
 		});
 	}
 	
+	try {
+		mkdirSync(projectPath, { recursive: true });
+	} catch (error) {
+		console.error("Failed to create project directory:", error);
+		exit();
+	}
+	
 	if (options.skipInstall === undefined) {
 		options.skipInstall = await select({
 			message: "Would you like to skip running `npm install`? ›",
@@ -259,8 +287,30 @@ export async function init(options: CLIOptions) {
 		});
 	}
 	
-	if (options.skipInstall) {
-		printSuccessMessage(options.projectName, options.packageManager);
+	if (!options.skipInstall) {
+		const object = getPackageList(options);
+		console.log(object.dependencies);
+		console.log(object.devDependencies);
+		
+		if (object.dependencies.length > 0 && object.devDependencies.length > 0) {
+			try {
+				const targetDir = `${options.targetDir}/${options.projectName}`;
+				
+				console.log("Initializing node...")
+				execSync(getInitCommand(options.packageManager, targetDir), { stdio: "inherit" })
+				
+				console.log(`Installing dependencies: ${object.dependencies.join(', ')}`);
+				installPackages(object.dependencies, options.packageManager, targetDir);
+				
+				console.log(`Installing dev dependencies: ${object.devDependencies.join(', ')}`);
+				installPackages(object.devDependencies, options.packageManager, targetDir);
+			} catch (error) {
+				console.error("Failed to install packages:", error);
+				exit();
+			}
+		}
+		
+		printSuccessMessage(options.projectName, options.packageManager, projectPath);
 	}
 	
 	console.log(options);
