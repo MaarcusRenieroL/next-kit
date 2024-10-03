@@ -13,10 +13,10 @@ import {
 } from "./file-contents";
 import { chdir } from "process";
 import { createDirIfNotExists, createFileIfNotExists } from "../../utils";
-import { writeFileSync, readFileSync, existsSync } from "fs";
+import { writeFileSync, readFileSync } from "fs";
 
 export async function createNextApp(options: CLIOptions) {
-	const { tailwind, directory } = options;
+	const { tailwind } = options;
 	
 	createFileIfNotExists(".gitignore", gitignoreContents)
 	createFileIfNotExists(".env", "")
@@ -28,35 +28,24 @@ export async function createNextApp(options: CLIOptions) {
 	createDirIfNotExists('src');
 	createDirIfNotExists('public');
 	
-	if (directory === "app") {
-		
-		if (tailwind) {
-			createFileIfNotExists("tailwind.config.ts", tailwindConfigContent);
-			createFileIfNotExists("postcss.config.mjs", postcssConfigContent);
-		}
-		
-		chdir('src');
-		createDirIfNotExists('app');
-		chdir('app');
-		
-		const pageContent = tailwind ? pageTsxFileContentWithTailwind : pageTsxFileContent;
-		const layoutContent = tailwind ? layoutTsxFileContentWithTailwind : layoutTsxFileContent;
-		const cssContent = tailwind ? globalsCssFileWithTailwind : globalsCssFile;
-		
-		createFileIfNotExists('page.tsx', pageContent);
-		createFileIfNotExists('layout.tsx', layoutContent);
-		createFileIfNotExists('globals.css', cssContent);
+	if (tailwind) {
+		createFileIfNotExists("tailwind.config.ts", tailwindConfigContent);
+		createFileIfNotExists("postcss.config.mjs", postcssConfigContent);
 	}
 	
-	console.log("Current page" + process.cwd())
+	chdir('src');
+	createDirIfNotExists('app');
+	chdir('app');
+	
+	const pageContent = tailwind ? pageTsxFileContentWithTailwind : pageTsxFileContent;
+	const layoutContent = tailwind ? layoutTsxFileContentWithTailwind : layoutTsxFileContent;
+	const cssContent = tailwind ? globalsCssFileWithTailwind : globalsCssFile;
+	
+	createFileIfNotExists('page.tsx', pageContent);
+	createFileIfNotExists('layout.tsx', layoutContent);
+	createFileIfNotExists('globals.css', cssContent);
 	
 	chdir("../../")
-	
-	console.log("Current page" + process.cwd())
-	
-	if (existsSync("package.json")) {
-		console.log("Package.json already exists. Skipping creation.");
-	}
 	
 	const packageJson = JSON.parse(readFileSync("package.json", 'utf8'));
 	

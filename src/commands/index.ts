@@ -4,7 +4,7 @@ import { input, select } from "@inquirer/prompts";
 
 import { CLIOptions, PackageManager, PackageManagerX } from "../types";
 import { exit, printSuccessMessage } from "../utils/message";
-import { getInitCommand, getPackageList, installPackages } from "../utils";
+import { getInitCommand, getPackageList } from "../utils";
 import { createNextApp } from "../packages/next";
 import { chdir } from "process";
 import { createAPIs } from "../packages/api";
@@ -46,16 +46,6 @@ export async function init(options: CLIOptions) {
 		}
 	}
 	
-	if (options.language === undefined) {
-		options.language = await select({
-			message: "Which programming language do you want to use? ›",
-			choices: [
-				{ name: "TypeScript", value: "typescript" },
-				{ name: "JavaScript", value: "javascript" },
-			]
-		});
-	}
-	
 	if (options.eslint === undefined) {
 		options.eslint = await select({
 			message: "Would you like to disable ESLint? ›",
@@ -69,26 +59,6 @@ export async function init(options: CLIOptions) {
 	if (options.tailwind === undefined) {
 		options.tailwind = await select({
 			message: "Do you want to include Tailwind CSS? ›",
-			choices: [
-				{ name: "No", value: false },
-				{ name: "Yes", value: true },
-			]
-		});
-	}
-	
-	if (options.directory === undefined) {
-		options.directory = await select({
-			message: "Which directory structure would you like to use? ›",
-			choices: [
-				{ name: "Pages", value: "pages" },
-				{ name: "App", value: "app" },
-			]
-		});
-	}
-	
-	if (options.directory === "app" && options.srcDir === undefined) {
-		options.srcDir = await select({
-			message: "Would you like to use the `src` directory? ›",
 			choices: [
 				{ name: "No", value: false },
 				{ name: "Yes", value: true },

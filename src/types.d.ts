@@ -7,16 +7,12 @@ export type DatabaseType = "postgresql" | "mysql" | "sqlite" | "mongodb" | "none
 export type Email = "sendgrid" | "mailgun" | "postmark" | "resend" | "none" | null | undefined;
 export type Payment = "stripe" | "lemon-squeezy" | "razorpay" | "paypal" | "none" | null | undefined;
 export type Analytics = "vercel-analytics" | "google-analytics" | "none" | null;
-export type Language = | "javascript" | "typescript" | undefined;
-export type Directory = | "app" | "pages" | undefined;
 export type API = "rest" | "trpc" | "graphql" | "hono" | "none" | null | undefined;
 
 interface NextJSOptions {
 	language: Language;
 	tailwind?: boolean;
 	eslint?: boolean;
-	directory?: Directory;
-	srcDir?: boolean;
 	empty?: boolean;
 	skipInstall?: boolean;
 }
