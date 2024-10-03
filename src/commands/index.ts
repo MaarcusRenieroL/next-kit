@@ -1,5 +1,4 @@
 import { mkdirSync } from "fs";
-import { join } from "path";
 
 import { input, select } from "@inquirer/prompts";
 
@@ -300,10 +299,10 @@ export async function init(options: CLIOptions) {
 				execSync(getInitCommand(options.packageManager, targetDir), { stdio: "inherit" })
 				
 				console.log(`Installing dependencies: ${object.dependencies.join(', ')}`);
-				installPackages(object.dependencies, options.packageManager, targetDir);
+				await installPackages(object.dependencies, options.packageManager);
 				
 				console.log(`Installing dev dependencies: ${object.devDependencies.join(', ')}`);
-				installPackages(object.devDependencies, options.packageManager, targetDir);
+				await installPackages(object.devDependencies, options.packageManager);
 			} catch (error) {
 				console.error("Failed to install packages:", error);
 				exit();

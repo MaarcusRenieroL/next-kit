@@ -133,7 +133,8 @@ export function getPackageList(options: CLIOptions) {
 	return object;
 }
 
-export function installPackages(packageList: string[], packageManager: string, directory: string): void {
+export async function installPackages(packageList: string[], packageManager: string) {
+	
 	const installCommand =
 		packageManager === 'npm'
 			? 'npm install'
@@ -148,19 +149,27 @@ export function installPackages(packageList: string[], packageManager: string, d
 		return;
 	}
 	
-	for (const [index, pkg] of packageList.entries()) {
-		const command = `${installCommand} ${pkg}`;
+	const installedPackages = [];
+	
+	for (let i = 0; i < packageList.length; i++) {
+		const pkg = packageList[i];
+		process.stdout.write(`Installing package ${i + 1}: ${pkg}... `);
 		
 		try {
-			
-			console.log(chalk.yellow(`Installing package ${index + 1}: ${chalk.bold(pkg)}`));
-			execSync(command, { stdio: 'inherit' });
-			console.log(chalk.green(`Package ${chalk.bold(pkg)} installed successfully.`));
-		} catch (error: any) {
-			console.error(chalk.red(`Error installing package ${chalk.bold(pkg)}: ${error.message}`));
-		}
-	}
 
+			execSync(`npm install ${pkg}`, { stdio: 'ignore' });
+			installedPackages.push(pkg);
+			
+		} catch (error) {
+			process.stdout.write(`${error}\n`);
+		}
+		
+		if (i < packageList.length - 1) {
+			process.stdout.write('\r');
+		}
+		
+		console.log(chalk.greenBright(`${pkg} installed successfully`))
+	}
 	
 	console.log(chalk.green('All packages installed successfully.'));
 }
