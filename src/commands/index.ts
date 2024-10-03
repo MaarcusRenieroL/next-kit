@@ -4,8 +4,9 @@ import { input, select } from "@inquirer/prompts";
 
 import { CLIOptions, PackageManager, PackageManagerX } from "../types";
 import { exit, printSuccessMessage } from "../utils/message";
-import { getInitCommand, getPackageList, installPackages } from "../utils";
-import { execSync } from "child_process";
+import { getPackageList, installPackages } from "../utils";
+import { createNextApp } from "../packages/next";
+import { chdir } from "process";
 
 const packageManagerXMap: Record<PackageManager, PackageManagerX> = {
 	yarn: "yarn", npm: "npx", pnpm: "pnpx", bun: "bunx",
@@ -288,29 +289,27 @@ export async function init(options: CLIOptions) {
 	
 	if (!options.skipInstall) {
 		const object = getPackageList(options);
-		console.log(object.dependencies);
-		console.log(object.devDependencies);
 		
 		if (object.dependencies.length > 0 && object.devDependencies.length > 0) {
 			try {
 				const targetDir = `${options.targetDir}/${options.projectName}`;
 				
+				chdir(targetDir);
 				console.log("Initializing node...")
-				execSync(getInitCommand(options.packageManager, targetDir), { stdio: "inherit" })
 				
 				console.log(`Installing dependencies: ${object.dependencies.join(', ')}`);
-				await installPackages(object.dependencies, options.packageManager);
+				await installPackages(object.dependencies, options.packageManager, false);
 				
 				console.log(`Installing dev dependencies: ${object.devDependencies.join(', ')}`);
-				await installPackages(object.devDependencies, options.packageManager);
+				await installPackages(object.devDependencies, options.packageManager, true);
+				
+				await createNextApp(options);
 			} catch (error) {
 				console.error("Failed to install packages:", error);
 				exit();
 			}
 		}
 		
-		printSuccessMessage(options.projectName, options.packageManager, projectPath);
+		printSuccessMessage(options.projectName, options.targetDir + "/" + options.projectName);
 	}
-	
-	console.log(options);
 }

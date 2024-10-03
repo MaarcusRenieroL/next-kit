@@ -36,7 +36,6 @@ export interface CLIOptions extends NextJSOptions, PackagesOptions {
 	projectName: string;
 	packageManager: PackageManager;
 	packageManagerX: PackageManagerX;
-	src: boolean;
 	alias: string;
 	template?: any;
 	targetDir?: string;

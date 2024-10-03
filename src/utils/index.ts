@@ -1,8 +1,9 @@
 import { execSync } from 'child_process';
 import { chdir } from 'process';
+import chalk from "chalk";
 
 import { CLIOptions } from "../types";
-import chalk from "chalk";
+import { existsSync, mkdirSync, writeFileSync } from "fs";
 
 export function getInitCommand(packageManager: string, directory: string): string {
 	chdir(directory);
@@ -133,7 +134,7 @@ export function getPackageList(options: CLIOptions) {
 	return object;
 }
 
-export async function installPackages(packageList: string[], packageManager: string) {
+export async function installPackages(packageList: string[], packageManager: string, devDependency: boolean) {
 	
 	const installCommand =
 		packageManager === 'npm'
@@ -153,11 +154,15 @@ export async function installPackages(packageList: string[], packageManager: str
 	
 	for (let i = 0; i < packageList.length; i++) {
 		const pkg = packageList[i];
-		process.stdout.write(`Installing package ${i + 1}: ${pkg}... `);
+		process.stdout.write(`Installing package: ${pkg}... `);
 		
 		try {
 
-			execSync(`npm install ${pkg}`, { stdio: 'ignore' });
+			if (devDependency) {
+				execSync(`npm install -D ${pkg}`, { stdio: "ignore" })
+			} else {
+				execSync(`npm install ${pkg}`, { stdio: 'ignore' });
+			}
 			installedPackages.push(pkg);
 			
 		} catch (error) {
@@ -167,9 +172,19 @@ export async function installPackages(packageList: string[], packageManager: str
 		if (i < packageList.length - 1) {
 			process.stdout.write('\r');
 		}
-		
-		console.log(chalk.greenBright(`${pkg} installed successfully`))
 	}
 	
 	console.log(chalk.green('All packages installed successfully.'));
+}
+
+export function createFileIfNotExists(fileName: string, content: string) {
+	if (!existsSync(fileName)) {
+		writeFileSync(fileName, content);
+	}
+}
+
+export function createDirIfNotExists(dirName: string) {
+	if (!existsSync(dirName)) {
+		mkdirSync(dirName);
+	}
 }
