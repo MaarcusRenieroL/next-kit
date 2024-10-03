@@ -1,4 +1,5 @@
 import { CLIOptions } from "../../types";
+import { chdir } from "process";
 import { writeFileSync } from "fs";
 import {
   indexTrpcContent,
@@ -53,4 +54,6 @@ async function createTrpcAPI() {
     trpcProviderContent,
   );
   writeFileSync("src/components/providers/index.tsx", providerContent);
+
+  chdir("../../../");
 }

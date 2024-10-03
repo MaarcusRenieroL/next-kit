@@ -9,6 +9,7 @@ import { createNextApp } from "../packages/next";
 import { chdir } from "process";
 import { createAPIs } from "../packages/api";
 import { execSync } from "child_process";
+import { createORMs } from "../packages/orm";
 
 const packageManagerXMap: Record<PackageManager, PackageManagerX> = {
   yarn: "yarn",
@@ -283,6 +284,11 @@ export async function init(options: CLIOptions) {
 
         if (options.api) {
           await createAPIs(options);
+        }
+
+        if (options.orm) {
+          console.log("orm options are available");
+          await createORMs(options);
         }
       } catch (error) {
         console.error("Failed to install packages:", error);
