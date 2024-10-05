@@ -2,7 +2,7 @@ import { execSync } from "child_process";
 import chalk from "chalk";
 
 import { CLIOptions } from "../types";
-import { existsSync, mkdirSync, writeFileSync } from "fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
 
 export function getInitCommand(packageManager: string): string {
   switch (packageManager) {
@@ -33,10 +33,6 @@ export function getPackageList(options: CLIOptions) {
     "@types/react",
     "@types/react-dom",
   );
-
-  if (options.language === "typescript") {
-    object.dependencies.push("typescript", "ts-node", "@types/node");
-  }
 
   if (options.eslint) {
     object.devDependencies.push("eslint", "eslint-config-next");
@@ -213,3 +209,53 @@ export function createDirectory(path: string) {
   }
 }
 
+export async function addPackages(packages: {
+  dependencies: string[];
+  devDependencies: string[];
+}) {
+  const packageJson = JSON.parse(readFileSync("package.json", "utf8"));
+
+  if (!packageJson.dependencies) {
+    packageJson.dependencies = {};
+  }
+
+  if (!packageJson.devDependencies) {
+    packageJson.devDependencies = {};
+  }
+
+  for (const packageName of packages.dependencies) {
+    try {
+      const response = await fetch(
+        `https://registry.npmjs.org/${packageName}/latest`,
+      );
+      if (!response.ok)
+        throw new Error(`Failed to fetch version for ${packageName}`);
+
+      const data = await response.json();
+      const latestVersion = data.version;
+
+      packageJson.dependencies[packageName] = `^${latestVersion}`;
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }
+
+  for (const packageName of packages.devDependencies) {
+    try {
+      const response = await fetch(
+        `https://registry.npmjs.org/${packageName}/latest`,
+      );
+      if (!response.ok)
+        throw new Error(`Failed to fetch version for ${packageName}`);
+
+      const data = await response.json();
+      const latestVersion = data.version;
+
+      packageJson.devDependencies[packageName] = `^${latestVersion}`;
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }
+
+  writeFileSync("package.json", JSON.stringify(packageJson, null, 2));
+}

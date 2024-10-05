@@ -2,21 +2,19 @@ import { mkdirSync } from "fs";
 
 import { input, select } from "@inquirer/prompts";
 
-import { CLIOptions, PackageManager, PackageManagerX } from "../types";
+import { CLIOptions } from "../types";
 import { exit, printSuccessMessage } from "../utils/message";
-import { getInitCommand, getPackageList } from "../utils";
+import {
+  getInitCommand,
+  getPackageList,
+  installPackages,
+  addPackages,
+} from "../utils";
 import { createNextApp } from "../packages/next";
 import { chdir } from "process";
 import { createAPIs } from "../packages/api";
 import { execSync } from "child_process";
 import { createORMs } from "../packages/orm";
-
-const packageManagerXMap: Record<PackageManager, PackageManagerX> = {
-  yarn: "yarn",
-  npm: "npx",
-  pnpm: "pnpx",
-  bun: "bunx",
-};
 
 export async function init(options: CLIOptions) {
   let projectPath = "";
@@ -43,61 +41,20 @@ export async function init(options: CLIOptions) {
         default: process.cwd(),
       });
 
-      projectPath = options.targetDir + "/" + options.projectName;
+      projectPath = `${options.targetDir}/${options.projectName}`;
     } catch (error) {
       exit();
     }
   }
 
-  if (options.eslint === undefined) {
-    options.eslint = await select({
-      message: "Would you like to disable ESLint? ›",
+  if (options.empty === undefined) {
+    options.empty = await select({
+      message: "Would you like to generate an empty project structure? ›",
       choices: [
         { name: "No", value: false },
         { name: "Yes", value: true },
       ],
     });
-  }
-
-  if (options.tailwind === undefined) {
-    options.tailwind = await select({
-      message: "Do you want to include Tailwind CSS? ›",
-      choices: [
-        { name: "No", value: false },
-        { name: "Yes", value: true },
-      ],
-    });
-  }
-
-  if (!options.alias) {
-    try {
-      options.alias = await input({
-        message: "What alias pattern would you like to use? ›",
-        default: "@/*",
-      });
-    } catch (error) {
-      exit();
-    }
-  }
-
-  if (!options.packageManager) {
-    try {
-      options.packageManager = await select({
-        message: "Which package manager would you like to use? ›",
-        choices: [
-          { name: "Npm", value: "npm" },
-          { name: "Yarn", value: "yarn" },
-          { name: "Pnpm", value: "pnpm" },
-          { name: "Bun", value: "bun" },
-        ],
-      });
-    } catch (error) {
-      exit();
-    }
-  }
-
-  if (!options.packageManagerX) {
-    options.packageManagerX = packageManagerXMap[options.packageManager];
   }
 
   if (!options.uiLibrary) {
@@ -110,6 +67,37 @@ export async function init(options: CLIOptions) {
           { name: "Radix UI", value: "radix-ui" },
           { name: "Chakra UI", value: "chakra-ui" },
         ],
+      });
+    } catch (error) {
+      exit();
+    }
+  }
+
+  if (options.tailwind === undefined) {
+    options.tailwind = await select({
+      message: "Do you want to include Tailwind CSS? ›",
+      choices: [
+        { name: "No", value: false },
+        { name: "Yes", value: true },
+      ],
+    });
+  }
+
+  if (options.eslint === undefined) {
+    options.eslint = await select({
+      message: "Would you like to disable ESLint? ›",
+      choices: [
+        { name: "No", value: false },
+        { name: "Yes", value: true },
+      ],
+    });
+  }
+
+  if (!options.alias) {
+    try {
+      options.alias = await input({
+        message: "What alias pattern would you like to use? ›",
+        default: "@/*",
       });
     } catch (error) {
       exit();
@@ -133,77 +121,42 @@ export async function init(options: CLIOptions) {
     }
   }
 
-  if (options.database !== "none") {
-    if (!options.orm) {
-      try {
-        options.orm = await select({
-          message: "Which ORM would you like to use? ›",
-          choices: [
-            { name: "No ORM", value: "none" },
-            { name: "Prisma", value: "prisma" },
-            { name: "Drizzle", value: "drizzle" },
-          ],
-        });
-      } catch (error) {
-        exit();
-      }
+  if (options.database !== "none" && !options.orm) {
+    try {
+      options.orm = await select({
+        message: "Which ORM would you like to use? ›",
+        choices: [
+          { name: "No ORM", value: "none" },
+          { name: "Prisma", value: "prisma" },
+          { name: "Drizzle", value: "drizzle" },
+        ],
+      });
+    } catch (error) {
+      exit();
     }
+  }
 
-    if (!options.auth) {
-      try {
-        options.auth = await select({
-          message: "Which authentication package would you like to use? ›",
-          choices: [
-            { name: "No Authentication", value: "none" },
-            { name: "Next Auth", value: "next-auth" },
-            { name: "Clerk", value: "clerk" },
-            { name: "Kinde", value: "kinde" },
-            { name: "Lucia", value: "lucia" },
-          ],
-        });
-      } catch (error) {
-        exit();
-      }
-    }
-
-    if (!options.payment) {
-      try {
-        options.payment = await select({
-          message: "Which payment service would you like to use? ›",
-          choices: [
-            { name: "No Payment Service", value: "none" },
-            { name: "Stripe", value: "stripe" },
-            { name: "Paypal", value: "paypal" },
-            { name: "Lemon Squeezy", value: "lemon-squeezy" },
-            { name: "Razorpay", value: "razorpay" },
-          ],
-        });
-      } catch (error) {
-        exit();
-      }
-    }
-  } else {
-    if (!options.auth) {
-      try {
-        options.auth = await select({
-          message: "Which authentication package would you like to use? ›",
-          choices: [
-            { name: "No Authentication", value: "none" },
-            { name: "Clerk", value: "clerk" },
-            { name: "Kinde", value: "kinde" },
-            { name: "Lucia", value: "lucia" },
-          ],
-        });
-      } catch (error) {
-        exit();
-      }
+  if (!options.auth) {
+    try {
+      options.auth = await select({
+        message: "Which authentication package would you like to use? ›",
+        choices: [
+          { name: "No Authentication", value: "none" },
+          { name: "Next Auth", value: "next-auth" },
+          { name: "Clerk", value: "clerk" },
+          { name: "Kinde", value: "kinde" },
+          { name: "Lucia", value: "lucia" },
+        ],
+      });
+    } catch (error) {
+      exit();
     }
   }
 
   if (!options.api) {
     try {
       options.api = await select({
-        message: "How do you want to write your APIs",
+        message: "How do you want to write your APIs? ›",
         choices: [
           { name: "No APIs", value: "none" },
           { name: "Rest API", value: "rest" },
@@ -232,21 +185,37 @@ export async function init(options: CLIOptions) {
     }
   }
 
-  if (options.empty === undefined) {
-    options.empty = await select({
-      message: "Would you like to generate an empty project structure? ›",
-      choices: [
-        { name: "No", value: false },
-        { name: "Yes", value: true },
-      ],
-    });
+  if (!options.payment) {
+    try {
+      options.payment = await select({
+        message: "Which payment service would you like to use? ›",
+        choices: [
+          { name: "No Payment Service", value: "none" },
+          { name: "Stripe", value: "stripe" },
+          { name: "Paypal", value: "paypal" },
+          { name: "Lemon Squeezy", value: "lemon-squeezy" },
+          { name: "Razorpay", value: "razorpay" },
+        ],
+      });
+    } catch (error) {
+      exit();
+    }
   }
 
-  try {
-    mkdirSync(projectPath, { recursive: true });
-  } catch (error) {
-    console.error("Failed to create project directory:", error);
-    exit();
+  if (!options.packageManager) {
+    try {
+      options.packageManager = await select({
+        message: "Which package manager would you like to use? ›",
+        choices: [
+          { name: "Npm", value: "npm" },
+          { name: "Yarn", value: "yarn" },
+          { name: "Pnpm", value: "pnpm" },
+          { name: "Bun", value: "bun" },
+        ],
+      });
+    } catch (error) {
+      exit();
+    }
   }
 
   if (options.skipInstall === undefined) {
@@ -259,46 +228,58 @@ export async function init(options: CLIOptions) {
     });
   }
 
-  if (!options.skipInstall) {
-    const object = getPackageList(options);
+  const packages = getPackageList(options);
 
-    if (object.dependencies.length > 0 && object.devDependencies.length > 0) {
-      try {
-        const targetDir = `${options.targetDir}/${options.projectName}`;
+  if (packages.dependencies.length > 0 && packages.devDependencies.length > 0) {
+    try {
+      mkdirSync(projectPath);
 
-        chdir(targetDir);
-        console.log("Initializing node...");
-        execSync(getInitCommand(options.packageManager), { stdio: "ignore" });
+      const targetDir = `${options.targetDir}/${options.projectName}`;
+
+      chdir(targetDir);
+
+      console.log("Initializing node...");
+      execSync(getInitCommand(options.packageManager), { stdio: "ignore" });
+
+      if (!options.skipInstall) {
+        console.log(
+          `Installing dependencies: ${packages.dependencies.join(", ")}`,
+        );
+        await installPackages(
+          packages.dependencies,
+          options.packageManager,
+          false,
+        );
 
         console.log(
-          `Installing dependencies: ${object.dependencies.join(", ")}`,
+          `Installing dev dependencies: ${packages.devDependencies.join(", ")}`,
         );
-        // await installPackages(object.dependencies, options.packageManager, false);
-
-        console.log(
-          `Installing dev dependencies: ${object.devDependencies.join(", ")}`,
+        await installPackages(
+          packages.devDependencies,
+          options.packageManager,
+          true,
         );
-        // await installPackages(object.devDependencies, options.packageManager, true);
-
-        await createNextApp(options);
-
-        if (options.api) {
-          await createAPIs(options);
-        }
-
-        if (options.orm) {
-          console.log("orm options are available");
-          await createORMs(options);
-        }
-      } catch (error) {
-        console.error("Failed to install packages:", error);
-        exit();
       }
-    }
 
-    printSuccessMessage(
-      options.projectName,
-      options.targetDir + "/" + options.projectName,
-    );
+      await addPackages(packages);
+
+      await createNextApp(options);
+
+      if (options.api) {
+        await createAPIs(options);
+      }
+
+      if (options.orm) {
+        await createORMs(options);
+      }
+    } catch (error) {
+      console.error("Failed to install packages:", error);
+      exit();
+    }
   }
+
+  printSuccessMessage(
+    options.projectName,
+    options.targetDir + "/" + options.projectName,
+  );
 }
