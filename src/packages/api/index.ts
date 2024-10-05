@@ -55,5 +55,4 @@ async function createTrpcAPI() {
   );
   writeFileSync("src/components/providers/index.tsx", providerContent);
 
-  chdir("../../../");
 }

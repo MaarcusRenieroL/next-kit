@@ -7,8 +7,6 @@ import { prismaContent } from "./file-contents";
 export async function createORMs(options: CLIOptions) {
   const { orm, database } = options;
 
-  console.log(orm);
-
   if (!database) {
     return;
   }
@@ -26,14 +24,11 @@ export async function createORMs(options: CLIOptions) {
 }
 
 function createPrisma(database: string) {
+  console.log(process.cwd())
   createDirIfNotExists("schema");
   chdir("schema");
 
   writeFileSync("schema.prisma", prismaContent(database));
-
-  chdir("../");
-
-  console.log(database);
 
   let database_url =
     database === "mysql"
@@ -45,9 +40,6 @@ function createPrisma(database: string) {
           : database === "sqlite"
             ? "file:./[filename].db"
             : "";
-
-  console.log(process.cwd());
-  console.log(database_url);
 
   writeFileSync(".env", `\nDATABASE_URL="${database_url}"`);
 }
