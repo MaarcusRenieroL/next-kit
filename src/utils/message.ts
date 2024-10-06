@@ -1,26 +1,43 @@
 import chalk from "chalk";
 import boxen from "boxen";
 import { PackageManager } from "@/types/global.js";
+import figlet from "figlet";
 
 export function printIntroMessage() {
-  const message = `
-███╗   ██╗███████╗██╗  ██╗████████╗               ██████╗██╗     ██╗
-████╗  ██║██╔════╝╚██╗██╔╝╚══██╔══╝              ██╔════╝██║     ██║
-██╔██╗ ██║█████╗   ╚███╔╝    ██║       █████╗    ██║     ██║     ██║
-██║╚██╗██║██╔══╝   ██╔██╗    ██║       ╚════╝    ██║     ██║     ██║
-██║ ╚████║███████╗██╔╝ ██╗   ██║                 ╚██████╗███████╗██║
-╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝   ╚═╝                  ╚═════╝╚══════╝╚═╝
+	
+	const headerText = figlet.textSync('next-cli', {
+		font: 'ANSI Shadow',
+		horizontalLayout: 'default',
+		verticalLayout: 'default',
+		width: 80,
+		whitespaceBreak: true
+	});
+	
+	const message = `
+${chalk.yellow(headerText)}
 
+${chalk.yellow.bold('🚀 Welcome to next-cli v0.1.0 🚀')}
+Set up Next.js apps in a flash ${chalk.cyan('⚡')}
 
-A faster way to build your next Next.js project
-	`;
+${chalk.magenta('💡 Features:')}
+  - ${chalk.green('Authentication')} 🔒
+  - ${chalk.green('Database & ORM')} 🛢️
+  - ${chalk.green('API Building')} 🛠️
+  - ${chalk.green('Analytics')} 📊
+  - ${chalk.green('Email Providers')} ✉️
+  - ${chalk.green('Payments')} 💳
 
-  console.log(chalk.green(message));
+${chalk.dim('This tool is a work in progress... stay tuned for updates!')}
+${chalk.blue('Developed by: Maarcus Reniero L, Akash Layal').trim()}
+
+`;
+
+	console.log(message);
 }
 
 export function exit() {
-  console.log("Thank you for using Next-CLI");
-  process.exit(0);
+	console.log("Thank you for using Next-CLI");
+	process.exit(0);
 }
 
 export function printSuccessMessage(packageManager: PackageManager, targetDir: string) {

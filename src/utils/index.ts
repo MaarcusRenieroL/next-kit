@@ -1,8 +1,8 @@
 import { execSync } from "child_process";
 import chalk from "chalk";
 
-import { CLIOptions } from "../types";
-import { existsSync, mkdirSync, writeFileSync } from "fs";
+import { CLIOptions } from "@/types/global.js";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
 
 export function getInitCommand(packageManager: string): string {
   switch (packageManager) {
@@ -28,15 +28,7 @@ export function getPackageList(options: CLIOptions) {
   };
 
   object.dependencies.push("next", "react", "react-dom");
-  object.devDependencies.push(
-    "@types/node",
-    "@types/react",
-    "@types/react-dom",
-  );
-
-  if (options.language === "typescript") {
-    object.dependencies.push("typescript", "ts-node", "@types/node");
-  }
+  object.devDependencies.push("@types/node", "@types/react", "@types/react-dom");
 
   if (options.eslint) {
     object.devDependencies.push("eslint", "eslint-config-next");
@@ -75,12 +67,7 @@ export function getPackageList(options: CLIOptions) {
         object.dependencies.push("radix-ui");
         break;
       case "chakra-ui":
-        object.dependencies.push(
-          "@chakra-ui/react",
-          "@emotion/react",
-          "@emotion/styled",
-          "framer-motion",
-        );
+        object.dependencies.push("@chakra-ui/react", "@emotion/react", "@emotion/styled", "framer-motion");
         break;
       default:
         break;
@@ -125,12 +112,7 @@ export function getPackageList(options: CLIOptions) {
         object.dependencies.push("axios");
         break;
       case "trpc":
-        object.dependencies.push(
-          "@trpc/server",
-          "@trpc/next",
-          "@trpc/react-query",
-          "@trpc/client",
-        );
+        object.dependencies.push("@trpc/server", "@trpc/next", "@trpc/react-query", "@trpc/client");
         break;
       case "graphql":
         object.dependencies.push("graphql", "apollo-server");
@@ -146,19 +128,8 @@ export function getPackageList(options: CLIOptions) {
   return object;
 }
 
-export async function installPackages(
-  packageList: string[],
-  packageManager: string,
-  devDependency: boolean,
-) {
-  const installCommand =
-    packageManager === "npm"
-      ? "npm install"
-      : packageManager === "yarn"
-        ? "yarn add"
-        : packageManager === "pnpm"
-          ? "pnpm add"
-          : null;
+export async function installPackages(packageList: string[], packageManager: string, devDependency: boolean) {
+  const installCommand = packageManager === "npm" ? "npm install" : packageManager === "yarn" ? "yarn add" : packageManager === "pnpm" ? "pnpm add" : null;
 
   if (!installCommand) {
     console.error(chalk.red(`Unsupported package manager: ${packageManager}`));
@@ -213,3 +184,44 @@ export function createDirectory(path: string) {
   }
 }
 
+export async function addPackages(packages: { dependencies: string[]; devDependencies: string[] }) {
+  const packageJson = JSON.parse(readFileSync("package.json", "utf8"));
+
+  if (!packageJson.dependencies) {
+    packageJson.dependencies = {};
+  }
+
+  if (!packageJson.devDependencies) {
+    packageJson.devDependencies = {};
+  }
+
+  for (const packageName of packages.dependencies) {
+    try {
+      const response = await fetch(`https://registry.npmjs.org/${packageName}/latest`);
+      if (!response.ok) throw new Error(`Failed to fetch version for ${packageName}`);
+
+      const data = await response.json();
+      const latestVersion = data.version;
+
+      packageJson.dependencies[packageName] = `^${latestVersion}`;
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }
+
+  for (const packageName of packages.devDependencies) {
+    try {
+      const response = await fetch(`https://registry.npmjs.org/${packageName}/latest`);
+      if (!response.ok) throw new Error(`Failed to fetch version for ${packageName}`);
+
+      const data = await response.json();
+      const latestVersion = data.version;
+
+      packageJson.devDependencies[packageName] = `^${latestVersion}`;
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }
+
+  writeFileSync("package.json", JSON.stringify(packageJson, null, 2));
+}
