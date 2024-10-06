@@ -1,5 +1,6 @@
 import chalk from "chalk";
 import boxen from "boxen";
+import { PackageManager } from "@/types/global.js";
 
 export function printIntroMessage() {
   const message = `
@@ -22,7 +23,7 @@ export function exit() {
   process.exit(0);
 }
 
-export function printSuccessMessage(packageManager: string, targetDir: string) {
+export function printSuccessMessage(packageManager: PackageManager, targetDir: string) {
   const message = `
 ${chalk.greenBright("Project setup complete!")}
 ${chalk.yellow("Thanks for using the CLI!")}
@@ -39,6 +40,6 @@ ${chalk.magenta("Happy coding!")}
       padding: 1,
       margin: 1,
       borderStyle: "round",
-    }),
+    })
   );
 }

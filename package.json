@@ -2,32 +2,47 @@
   "name": "next-cli",
   "version": "1.0.0",
   "description": "A CLI built using Node JS and TypeScript to build Next.js projects easily",
-  "main": "src/index.ts",
-  "scripts": {
-    "dev": "tsx --watch src/index.ts"
-  },
-  "devDependencies": {
-    "tsx": "^4.7.1"
-  },
-  "peerDependencies": {
-    "typescript": "^5.6.2"
-  },
-  "dependencies": {
-    "@inquirer/prompts": "^6.0.1",
-    "boxen": "^8.0.1",
-    "chalk": "^5.3.0",
-    "commander": "^12.1.0",
-    "ts-node-dev": "^2.0.0"
+  "homepage": "https://github.com/MaarcusRenieroL/next-cli#readme",
+  "bugs": {
+    "url": "https://github.com/MaarcusRenieroL/next-cli/issues"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/MaarcusRenieroL/next-cli.git"
   },
-  "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/MaarcusRenieroL/next-cli/issues"
+  "author": "",
+  "type": "module",
+  "main": "src/index.ts",
+  "bin": {
+    "next-cli": "./dist/index.js"
   },
-  "homepage": "https://github.com/MaarcusRenieroL/next-cli#readme"
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsx src/index.ts",
+    "typecheck": "tsc"
+  },
+  "dependencies": {
+    "@inquirer/prompts": "^6.0.1",
+    "@planetscale/database": "^1.19.0",
+    "@prisma/adapter-planetscale": "^5.14.0",
+    "@prisma/client": "^5.14.0",
+    "boxen": "^8.0.1",
+    "chalk": "^5.3.0",
+    "commander": "^12.1.0",
+    "fs-extra": "^11.2.0",
+    "ora": "^8.1.0",
+    "sort-package-json": "^2.10.1",
+    "ts-node-dev": "^2.0.0"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
+    "prisma": "^5.14.0",
+    "tsup": "^8.3.0",
+    "tsx": "^4.7.1",
+    "type-fest": "^4.26.1"
+  },
+  "peerDependencies": {
+    "typescript": "^5.6.2"
+  }
 }
-
