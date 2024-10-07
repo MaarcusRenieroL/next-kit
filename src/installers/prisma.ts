@@ -1,13 +1,11 @@
 import { PKG_ROOT } from "@/constants/index.js";
-import { CLIOptions } from "@/types/global.js";
+import { Installer } from "@/types/global.js";
 import { addPackageDependency } from "@/utils/add-package-dependency.js";
 import fs from "fs-extra";
 import path from "path";
 import { type PackageJson } from "type-fest";
 
-export type Installer = (opts: CLIOptions) => void;
-
-export const prismaInstaller: Installer = ({ targetDir, projectName, database: databaseProvider }) => {
+export const prismaInstaller: Installer = ({ targetDir, projectName, scopedAppName, database: databaseProvider }) => {
   const projectDir = targetDir ? path.join(targetDir, projectName) : projectName;
 
   if (!projectDir) {
@@ -51,7 +49,7 @@ export const prismaInstaller: Installer = ({ targetDir, projectName, database: d
   fs.writeFileSync(schemaDest, schemaText);
 
   const clientSrc = path.join(extrasDir, "prisma/db-prisma.ts");
-  const clientDest = path.join(projectDir, "src/server/db/index.ts");
+  const clientDest = path.join(projectDir, scopedAppName === "src" ? "src" : "", "server/db/index.ts");
 
   // add postinstall and push script to package.json
   const packageJsonPath = path.join(projectDir, "package.json");

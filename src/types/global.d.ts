@@ -38,9 +38,10 @@ export interface CLIOptions extends NextJSOptions, PackagesOptions {
   alias: string;
   template?: any;
   targetDir?: string;
+  projectDir: string;
 }
 
-export const availablePackages = ["prisma", "hono"] as const;
+export const availablePackages = ["prisma", "hono", "tailwind", "trpc"] as const;
 export type AvailablePackages = (typeof availablePackages)[number];
 
 export type Installer = (opts: CLIOptions) => void;

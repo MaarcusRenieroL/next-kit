@@ -1,10 +1,12 @@
 import { createProject } from "@/helpers/create-project.js";
 import { buildPkgInstallerMap } from "@/installers/index.js";
 import { input, select } from "@inquirer/prompts";
-import path from "path";
+import chalk from "chalk";
 import { AvailablePackages, CLIOptions, PackageManager, PackageManagerX } from "../types/global.js";
 import { exit, printSuccessMessage } from "../utils/message.js";
-import chalk from "chalk";
+import { setImportAlias } from "@/helpers/set-import-alias.js";
+import path from "path";
+import { removeTsNoCheck } from "@/helpers/remove-ts-no-check.js";
 
 const packageManagerXMap: Record<PackageManager, PackageManagerX> = {
   yarn: "yarn",
@@ -132,11 +134,11 @@ export async function init(options: CLIOptions) {
     }
 
     options.api ??= await getInput("How do you want to write your APIs", [
-      { name: "No APIs", value: "none" },
-      { name: "Rest API", value: "rest" },
       { name: "Hono", value: "hono" },
       { name: "tRPC", value: "trpc" },
+      { name: "Rest API", value: "rest" },
       { name: "GraphQL", value: "graphql" },
+      { name: "No APIs", value: "none" },
     ]);
 
     options.analytics ??= await getInput("Which analytics service would you like to use? ›", [
@@ -150,28 +152,35 @@ export async function init(options: CLIOptions) {
       { name: "Yes", value: true },
     ]);
 
-    options.skipInstall ??= await getInput("Would you like to skip running `npm install`? ›", [
+    options.skipInstall ??= await getInput(`Would you like to skip running ${options.packageManager} install? ›`, [
       { name: "No", value: false },
       { name: "Yes", value: true },
     ]);
 
     // setup the project
-    if (options.database !== "none") {
-      const projectPath = path.join(options.targetDir, options.projectName);
+    options.projectDir = options.targetDir ? path.join(options.targetDir, options.projectName) : options.projectName;
 
+    if (options.database !== "none") {
       const packages: AvailablePackages[] = [];
       if (options.orm === "prisma") packages.push("prisma");
       if (options.api === "hono") packages.push("hono");
+      if (options.tailwind) packages.push("tailwind");
 
       const usePackages = buildPkgInstallerMap(packages, options.database);
 
       await createProject({ ...options, databaseProvider: options.database, packages: usePackages });
-    }
 
+      // update import alias in any generated files if not using the default
+      if (options.alias !== "@/") {
+        setImportAlias(options.projectDir, options.alias);
+      }
+    }
+    removeTsNoCheck(options.projectDir);
     console.log(`\nInstalling dependencies...`);
 
     printSuccessMessage(options.packageManager, options.projectName);
   } catch (error) {
+    console.log(error);
     exit();
   }
 }
