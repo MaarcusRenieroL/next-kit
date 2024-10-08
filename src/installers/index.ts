@@ -4,6 +4,7 @@ import { prismaInstaller } from "@/installers/orm/prisma.js";
 import { tailwindInstaller } from "@/installers/ui/tailwind.js";
 import { clerkInstaller } from "@/installers/auth/clerk.js";
 import { kindeInstaller } from "@/installers/auth/kinde.js";
+import { restApiInstaller } from "@/installers/api/rest-api.js";
 
 export const buildPkgInstallerMap = (packages: AvailablePackages[], databaseProvider: DatabaseProvider): PkgInstallerMap => ({
   prisma: {
@@ -29,5 +30,9 @@ export const buildPkgInstallerMap = (packages: AvailablePackages[], databaseProv
   kinde: {
     inUse: packages.includes("kinde"),
     installer: kindeInstaller
+  },
+  "rest-api": {
+    inUse: packages.includes("rest-api"),
+    installer: restApiInstaller
   }
 });

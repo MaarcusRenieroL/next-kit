@@ -163,9 +163,23 @@ export async function init(options: CLIOptions) {
     if (options.database !== "none") {
       const packages: AvailablePackages[] = [];
       if (options.orm === "prisma") packages.push("prisma");
-      if (options.api === "hono") packages.push("hono");
+
+      switch (options.api) {
+        case "hono":
+          packages.push("hono");
+          break;
+        case "trpc":
+          packages.push("trpc")
+          break;
+        case "rest":
+          packages.push("rest-api")
+          break;
+        default:
+          break;
+      }
+
       if (options.tailwind) packages.push("tailwind");
-      
+
       switch (options.auth) {
         case "clerk":
           packages.push("clerk");
