@@ -15,6 +15,9 @@ export const dependencyVersionMap = {
   // clerk
   "@clerk/nextjs": "^5.6.0",
 
+  // kinde
+  "@kinde-oss/kinde-auth-nextjs": "^2.3.10",
+
   // Prisma
   prisma: "^5.14.0",
   "@prisma/client": "^5.14.0",

@@ -3,6 +3,7 @@ import { honoInstaller } from "@/installers/api/hono.js";
 import { prismaInstaller } from "@/installers/orm/prisma.js";
 import { tailwindInstaller } from "@/installers/ui/tailwind.js";
 import { clerkInstaller } from "@/installers/auth/clerk.js";
+import { kindeInstaller } from "@/installers/auth/kinde.js";
 
 export const buildPkgInstallerMap = (packages: AvailablePackages[], databaseProvider: DatabaseProvider): PkgInstallerMap => ({
   prisma: {
@@ -24,5 +25,9 @@ export const buildPkgInstallerMap = (packages: AvailablePackages[], databaseProv
   clerk: {
     inUse: packages.includes("clerk"),
     installer: clerkInstaller
+  },
+  kinde: {
+    inUse: packages.includes("kinde"),
+    installer: kindeInstaller
   }
 });
