@@ -165,6 +165,7 @@ export async function init(options: CLIOptions) {
       if (options.orm === "prisma") packages.push("prisma");
       if (options.api === "hono") packages.push("hono");
       if (options.tailwind) packages.push("tailwind");
+      if (options.auth === "clerk") packages.push("clerk")
 
       const usePackages = buildPkgInstallerMap(packages, options.database);
 

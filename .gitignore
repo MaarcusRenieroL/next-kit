@@ -64,3 +64,5 @@ pnpm-lock.yaml
 bun.lockb
 package-lock.json
 yarn-lock.yaml
+
+cli-app
