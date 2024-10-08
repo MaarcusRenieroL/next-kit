@@ -58,3 +58,9 @@ Thumbs.db
 
 # TYPESCRIPT
 *.tsbuildinfo
+
+# Lock files
+pnpm-lock.yaml
+bun.lockb
+package-lock.json
+yarn-lock.yaml
