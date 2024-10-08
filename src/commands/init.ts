@@ -7,6 +7,9 @@ import { exit, printSuccessMessage } from "../utils/message.js";
 import { setImportAlias } from "@/helpers/set-import-alias.js";
 import path from "path";
 import { removeTsNoCheck } from "@/helpers/remove-ts-no-check.js";
+import fs from "fs-extra";
+import ora from "ora";
+import { execSync } from "child_process";
 
 const packageManagerXMap: Record<PackageManager, PackageManagerX> = {
   yarn: "yarn",
@@ -194,12 +197,62 @@ export async function init(options: CLIOptions) {
       await createProject({ ...options, databaseProvider: options.database, packages: usePackages });
 
       // update import alias in any generated files if not using the default
-      if (options.alias !== "@/") {
+      if (options.alias !== "@/*") {
         setImportAlias(options.projectDir, options.alias);
       }
     }
     removeTsNoCheck(options.projectDir);
-    console.log(`\nInstalling dependencies...`);
+
+    if (!options.skipInstall) {
+      const packageJsonContents = JSON.parse(fs.readFileSync(options.projectDir + "/package.json", "utf-8"));
+      const dependencies = packageJsonContents.dependencies;
+      const devDependencies = packageJsonContents.devDependencies;
+
+      const getInstallCommand = (pkgManager: string, pkg: string, isDev: boolean) => {
+        switch (pkgManager) {
+          case "npm":
+            return `npm install ${isDev ? "--save-dev" : ""} ${pkg}`;
+          case "yarn":
+            return `yarn add ${isDev ? "--dev" : ""} ${pkg}`;
+          case "pnpm":
+            return `pnpm add ${isDev ? "--save-dev" : ""} ${pkg}`;
+          case "bun":
+            return `bun add ${pkg} ${isDev ? "--dev" : ""}`;
+          default:
+            throw new Error(`Unsupported package manager: ${pkgManager}`);
+        }
+      };
+
+      console.log(`\nInstalling dependencies...`);
+      Object.entries(dependencies).forEach(([pkgName, version]) => {
+        const pkg = `${pkgName}@${version}`;
+        const spinner = ora(`Installing package: ${chalk.cyan(pkg)}...`).start();
+
+        try {
+          const command = getInstallCommand(options.packageManager, pkg, false);
+          execSync(command, { stdio: "ignore", cwd: options.projectDir });
+          spinner.succeed(`${chalk.green("Successfully installed")} ${chalk.cyan(pkg)}`);
+        } catch (error) {
+          spinner.fail(`${chalk.red("Failed to install")} ${chalk.cyan(pkg)}`);
+          console.error(error);
+        }
+      });
+
+      console.log(`\nInstalling dev dependencies...`);
+      Object.entries(devDependencies).forEach(([pkgName, version]) => {
+        const pkg = `${pkgName}@${version}`;
+        const spinner = ora(`Installing package: ${chalk.cyan(pkg)}...`).start();
+
+        try {
+          const command = getInstallCommand(options.packageManager, pkg, true);
+          execSync(command, { stdio: "ignore", cwd: options.projectDir });
+          spinner.succeed(`${chalk.green("Successfully installed")} ${chalk.cyan(pkg)}`);
+        } catch (error) {
+          spinner.fail(`${chalk.red("Failed to install")} ${chalk.cyan(pkg)}`);
+          console.error(error);
+        }
+      });
+    }
 
     printSuccessMessage(options.packageManager, options.projectName);
   } catch (error) {
