@@ -40,7 +40,7 @@ export const prismaInstaller: Installer = ({ targetDir, projectName, scopedAppNa
       break;
   }
 
-  const extrasDir = path.join(PKG_ROOT, "template/extras");
+  const extrasDir = path.join(PKG_ROOT, "template/extras/orm");
   const schemaSrc = path.join(extrasDir, "prisma/schema", `base.prisma`);
   let schemaText = fs.readFileSync(schemaSrc, "utf-8");
 

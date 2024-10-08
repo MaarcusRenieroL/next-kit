@@ -11,7 +11,7 @@ export const tailwindInstaller: Installer = ({ projectDir, scopedAppName }) => {
     devMode: true,
   });
 
-  const extrasDir = path.join(PKG_ROOT, "template/extras");
+  const extrasDir = path.join(PKG_ROOT, "template/extras/ui");
   const templateDir = path.join(PKG_ROOT, "template");
 
   const twCfgSrc = path.join(extrasDir, "tailwind/tailwind.config.ts");
@@ -20,7 +20,7 @@ export const tailwindInstaller: Installer = ({ projectDir, scopedAppName }) => {
   const postcssCfgSrc = path.join(extrasDir, "tailwind/postcss.config.cjs");
   const postcssCfgDest = path.join(projectDir, "postcss.config.cjs");
 
-  const prettierSrc = path.join(extrasDir, "config/_prettier.config.ts");
+  const prettierSrc = path.join(extrasDir, "../config/_prettier.config.ts");
   const prettierDest = path.join(projectDir, "prettier.config.ts");
 
   const cssSrc = path.join(templateDir, "nextjs/styles/globals.css");

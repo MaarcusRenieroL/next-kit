@@ -4,7 +4,6 @@ import { addPackageDependency } from "@/utils/add-package-dependency.js";
 import fs from "fs-extra";
 import path from "path";
 
-
 export const honoInstaller: Installer = ({ targetDir, projectName, scopedAppName }) => {
   const projectDir = targetDir ? path.join(targetDir, projectName) : projectName;
 
@@ -20,7 +19,7 @@ export const honoInstaller: Installer = ({ targetDir, projectName, scopedAppName
   });
 
   // Copy Hono-specific files
-  const extrasDir = path.join(PKG_ROOT, "template/extras");
+  const extrasDir = path.join(PKG_ROOT, "template/extras/api");
   const honoSrc = path.join(extrasDir, "hono/server");
   const honoDest = path.join(projectDir, scopedAppName === "src" ? "src" : "", "server");
   fs.copySync(honoSrc, honoDest);
