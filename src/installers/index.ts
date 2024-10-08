@@ -25,14 +25,14 @@ export const buildPkgInstallerMap = (packages: AvailablePackages[], databaseProv
   },
   clerk: {
     inUse: packages.includes("clerk"),
-    installer: clerkInstaller
+    installer: clerkInstaller,
   },
   kinde: {
     inUse: packages.includes("kinde"),
-    installer: kindeInstaller
+    installer: kindeInstaller,
   },
   "rest-api": {
     inUse: packages.includes("rest-api"),
-    installer: restApiInstaller
-  }
+    installer: restApiInstaller,
+  },
 });

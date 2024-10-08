@@ -1,13 +1,12 @@
-import { FC, ReactNode } from "react"
+// @ts-nocheck
+
+import { FC, ReactNode } from "react";
 
 type Props = {
   children?: ReactNode;
-}
+};
 
 export const Providers: FC<Props> = ({ children }) => {
-  return (
-    <>
-      {children}
-    </>
-  )
-}
+  return <>{children}</>;
+};
+

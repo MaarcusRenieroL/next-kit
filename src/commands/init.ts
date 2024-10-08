@@ -169,10 +169,10 @@ export async function init(options: CLIOptions) {
           packages.push("hono");
           break;
         case "trpc":
-          packages.push("trpc")
+          packages.push("trpc");
           break;
         case "rest":
-          packages.push("rest-api")
+          packages.push("rest-api");
           break;
         default:
           break;

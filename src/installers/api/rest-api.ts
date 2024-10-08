@@ -4,7 +4,6 @@ import { addPackageDependency } from "@/utils/add-package-dependency.js";
 import fs from "fs-extra";
 import path from "path";
 
-
 export const restApiInstaller: Installer = ({ targetDir, projectName, scopedAppName }) => {
   const projectDir = targetDir ? path.join(targetDir, projectName) : projectName;
 
@@ -29,4 +28,5 @@ export const restApiInstaller: Installer = ({ targetDir, projectName, scopedAppN
   const restApiApiDest = path.join(projectDir, scopedAppName === "src" ? "src" : "", "app/api/test/route.ts");
   fs.mkdirSync(path.dirname(restApiApiDest), { recursive: true });
   fs.writeFileSync(restApiApiDest, apiRouteContent);
-}
+};
+

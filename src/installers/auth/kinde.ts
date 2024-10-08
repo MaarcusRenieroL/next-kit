@@ -4,7 +4,6 @@ import { addPackageDependency } from "@/utils/add-package-dependency.js";
 import fs from "fs-extra";
 import path from "path";
 
-
 export const kindeInstaller: Installer = ({ targetDir, projectName, scopedAppName }) => {
   const projectDir = targetDir ? path.join(targetDir, projectName) : projectName;
 
@@ -37,5 +36,6 @@ KINDE_SITE_URL=http://localhost:3000
 KINDE_POST_LOGOUT_REDIRECT_URL=http://localhost:3000
 KINDE_POST_LOGIN_REDIRECT_URL=http://localhost:3000/dashboard`;
 
-  fs.writeFileSync(`${projectDir}/.env`, envContents)
-}
+  fs.writeFileSync(`${projectDir}/.env`, envContents);
+};
+

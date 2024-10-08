@@ -36,5 +36,5 @@ export const clerkInstaller: Installer = ({ targetDir, projectName, scopedAppNam
 CLERK_SECRET_KEY=YOUR_SECRET_KEY`;
 
   fs.writeFileSync(`${projectDir}/.env`, envContents);
+};
 
-}
