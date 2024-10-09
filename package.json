@@ -27,6 +27,7 @@
     "commander": "^12.1.0",
     "figlet": "^1.7.0",
     "fs-extra": "^11.2.0",
+    "next-cli": "file:",
     "ora": "^8.1.0",
     "sort-package-json": "^2.10.1",
     "ts-node-dev": "^2.0.0"

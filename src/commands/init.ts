@@ -10,7 +10,11 @@ import { removeTsNoCheck } from "@/helpers/remove-ts-no-check.js";
 import fs from "fs-extra";
 import ora from "ora";
 import { execSync } from "child_process";
+<<<<<<< HEAD
 import { PackageJson } from "type-fest";
+=======
+import { logger } from "@/utils/logger.js";
+>>>>>>> 47b894096697e0bdc34eb2f0ed8024f234fd0ce6
 
 const packageManagerXMap: Record<PackageManager, PackageManagerX> = {
   yarn: "yarn",
@@ -164,8 +168,9 @@ export async function init(options: CLIOptions) {
     // setup the project
     options.projectDir = options.targetDir ? path.join(options.targetDir, options.projectName) : options.projectName;
 
+    const packages: AvailablePackages[] = [];
+
     if (options.database !== "none") {
-      const packages: AvailablePackages[] = [];
       if (options.orm === "prisma") packages.push("prisma");
       if (options.tailwind) packages.push("tailwind");
 
@@ -194,7 +199,7 @@ export async function init(options: CLIOptions) {
 
       const usePackages = buildPkgInstallerMap(packages, options.database);
 
-      await createProject({ ...options, databaseProvider: options.database, packages: usePackages });
+      await createProject({ ...options, databaseProvider: options.database, packages: usePackages, packageList: packages });
 
       // update import alias in any generated files if not using the default
       if (options.alias !== "@/*") {
@@ -204,11 +209,17 @@ export async function init(options: CLIOptions) {
     removeTsNoCheck(options.projectDir);
 
     if (!options.skipInstall) {
+<<<<<<< HEAD
       const packageJsonPath = path.join(options.projectDir, "package.json");
       const packageJsonContents = fs.readJSONSync(packageJsonPath) as PackageJson;
 
       const dependencies = packageJsonContents.dependencies;
       const devDependencies = packageJsonContents.devDependencies;
+=======
+      const packageJsonContents = JSON.parse(fs.readFileSync(path.join(options.projectDir, "package.json"), "utf-8"));
+      const dependencies = packageJsonContents.dependencies || {};
+      const devDependencies = packageJsonContents.devDependencies || {};
+>>>>>>> 47b894096697e0bdc34eb2f0ed8024f234fd0ce6
 
       const getInstallCommand = (pkgManager: string, pkg: string, isDev: boolean) => {
         switch (pkgManager) {
@@ -224,6 +235,7 @@ export async function init(options: CLIOptions) {
             throw new Error(`Unsupported package manager: ${pkgManager}`);
         }
       };
+<<<<<<< HEAD
       console.log(`\nInstalling dependencies...`);
       if (dependencies) {
         Object.entries(dependencies).forEach(([pkgName, version]) => {
@@ -258,6 +270,36 @@ export async function init(options: CLIOptions) {
           }
         });
       }
+=======
+
+      const installPackages = (pkgList: any, isDev = false) => {
+        const spinner = ora(isDev ? 'Installing dev dependencies...' : 'Installing dependencies...').start();
+
+        try {
+          const commands = pkgList.map(([pkgName, version]: [pkgName: string, version: string]) => {
+            const pkg = `${pkgName}@${version}`;
+            return getInstallCommand(options.packageManager, pkg, isDev);
+          });
+
+          commands.forEach((command: any) => {
+            execSync(command, { stdio: "ignore", cwd: options.projectDir });
+          });
+
+          spinner.succeed(`${chalk.green("Successfully installed")} ${isDev ? "dev dependencies" : "dependencies"}`);
+        } catch (error) {
+          console.log(error)
+          spinner.fail(`${chalk.red("Failed to install")} ${isDev ? "dev dependencies" : "dependencies"}`);
+        }
+      };
+
+      console.log("\n")
+      installPackages(Object.entries(dependencies));
+
+      console.log("\n")
+      installPackages(Object.entries(devDependencies), true);
+
+      logger.info("Packages installed successfully")
+>>>>>>> 47b894096697e0bdc34eb2f0ed8024f234fd0ce6
     }
 
     printSuccessMessage(options.packageManager, options.projectName);
