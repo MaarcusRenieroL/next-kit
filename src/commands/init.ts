@@ -10,6 +10,7 @@ import { removeTsNoCheck } from "@/helpers/remove-ts-no-check.js";
 import fs from "fs-extra";
 import ora from "ora";
 import { execSync } from "child_process";
+import { PackageJson } from "type-fest";
 
 const packageManagerXMap: Record<PackageManager, PackageManagerX> = {
   yarn: "yarn",
@@ -166,6 +167,7 @@ export async function init(options: CLIOptions) {
     if (options.database !== "none") {
       const packages: AvailablePackages[] = [];
       if (options.orm === "prisma") packages.push("prisma");
+      if (options.tailwind) packages.push("tailwind");
 
       switch (options.api) {
         case "hono":
@@ -180,8 +182,6 @@ export async function init(options: CLIOptions) {
         default:
           break;
       }
-
-      if (options.tailwind) packages.push("tailwind");
 
       switch (options.auth) {
         case "clerk":
@@ -204,7 +204,9 @@ export async function init(options: CLIOptions) {
     removeTsNoCheck(options.projectDir);
 
     if (!options.skipInstall) {
-      const packageJsonContents = JSON.parse(fs.readFileSync(options.projectDir + "/package.json", "utf-8"));
+      const packageJsonPath = path.join(options.projectDir, "package.json");
+      const packageJsonContents = fs.readJSONSync(packageJsonPath) as PackageJson;
+
       const dependencies = packageJsonContents.dependencies;
       const devDependencies = packageJsonContents.devDependencies;
 
@@ -222,36 +224,40 @@ export async function init(options: CLIOptions) {
             throw new Error(`Unsupported package manager: ${pkgManager}`);
         }
       };
-
       console.log(`\nInstalling dependencies...`);
-      Object.entries(dependencies).forEach(([pkgName, version]) => {
-        const pkg = `${pkgName}@${version}`;
-        const spinner = ora(`Installing package: ${chalk.cyan(pkg)}...`).start();
+      if (dependencies) {
+        Object.entries(dependencies).forEach(([pkgName, version]) => {
+          const pkg = `${pkgName}@${version}`;
+          const spinner = ora(`Installing package: ${chalk.cyan(pkg)}...`).start();
 
-        try {
-          const command = getInstallCommand(options.packageManager, pkg, false);
-          execSync(command, { stdio: "ignore", cwd: options.projectDir });
-          spinner.succeed(`${chalk.green("Successfully installed")} ${chalk.cyan(pkg)}`);
-        } catch (error) {
-          spinner.fail(`${chalk.red("Failed to install")} ${chalk.cyan(pkg)}`);
-          console.error(error);
-        }
-      });
+          try {
+            const command = getInstallCommand(options.packageManager, pkg, false);
+            execSync(command, { stdio: "ignore", cwd: options.projectDir });
+            spinner.succeed(`${chalk.green("Successfully installed")} ${chalk.cyan(pkg)}`);
+          } catch (error) {
+            spinner.fail(`${chalk.red("Failed to install")} ${chalk.cyan(pkg)}`);
+            console.error(error);
+          }
+        });
+      }
 
       console.log(`\nInstalling dev dependencies...`);
-      Object.entries(devDependencies).forEach(([pkgName, version]) => {
-        const pkg = `${pkgName}@${version}`;
-        const spinner = ora(`Installing package: ${chalk.cyan(pkg)}...`).start();
 
-        try {
-          const command = getInstallCommand(options.packageManager, pkg, true);
-          execSync(command, { stdio: "ignore", cwd: options.projectDir });
-          spinner.succeed(`${chalk.green("Successfully installed")} ${chalk.cyan(pkg)}`);
-        } catch (error) {
-          spinner.fail(`${chalk.red("Failed to install")} ${chalk.cyan(pkg)}`);
-          console.error(error);
-        }
-      });
+      if (devDependencies) {
+        Object.entries(devDependencies).forEach(([pkgName, version]) => {
+          const pkg = `${pkgName}@${version}`;
+          const spinner = ora(`Installing package: ${chalk.cyan(pkg)}...`).start();
+
+          try {
+            const command = getInstallCommand(options.packageManager, pkg, true);
+            execSync(command, { stdio: "ignore", cwd: options.projectDir });
+            spinner.succeed(`${chalk.green("Successfully installed")} ${chalk.cyan(pkg)}`);
+          } catch (error) {
+            spinner.fail(`${chalk.red("Failed to install")} ${chalk.cyan(pkg)}`);
+            console.error(error);
+          }
+        });
+      }
     }
 
     printSuccessMessage(options.packageManager, options.projectName);
