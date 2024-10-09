@@ -21,5 +21,4 @@ export const installPackages = (options: InstallPackagesOptions) => {
     }
   }
 
-  logger.info("Packages installed");
 };
