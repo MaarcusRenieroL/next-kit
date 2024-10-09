@@ -1,9 +1,10 @@
 import { AvailablePackages, CLIOptions, DatabaseProvider, PkgInstallerMap } from "@/types/global.js";
 import { getUserPkgManager } from "@/utils/get-user-pkg-manager.js";
 import path from "path";
-import { selectLayoutFile, selectPageFile, selectProviderFile, setupEnv } from "./generate-boilerplate.js";
+import { selectLayoutFile, selectPageFile, selectProviderFile } from "./generate-boilerplate.js";
 import { installPackages } from "./install-packages.js";
 import { scaffoldProject } from "./setup-base-project.js";
+import { setupEnv } from "./setup-env.js";
 
 type CreateProjectOptions = CLIOptions & {
   packages: PkgInstallerMap;
@@ -44,7 +45,8 @@ export const createProject = async ({ packages, databaseProvider, packageList, .
     packages,
     databaseProvider,
   });
-  setupEnv(options.projectDir, options.scopedAppName as string, options);
+  
+  setupEnv(options);
 
   return projectDir;
 };

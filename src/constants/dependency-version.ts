@@ -9,6 +9,11 @@ export const dependencyVersionMap = {
   // validation library
   zod: "^3.23.8",
 
+  // env packages
+  "@t3-oss/env-nextjs": "^0.11.1",
+  dotenv: "^16.4.5",
+  "dotenv-expand": "^11.0.6",
+
   // NextAuth.js
   "next-auth": "^4.24.7",
   "@auth/prisma-adapter": "^1.6.0",
