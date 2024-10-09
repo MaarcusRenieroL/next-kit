@@ -5,6 +5,7 @@ import { tailwindInstaller } from "@/installers/ui/tailwind.js";
 import { clerkInstaller } from "@/installers/auth/clerk.js";
 import { kindeInstaller } from "@/installers/auth/kinde.js";
 import { restApiInstaller } from "@/installers/api/rest-api.js";
+import { trpcInstaller } from "./api/trpc.js";
 
 export const buildPkgInstallerMap = (packages: AvailablePackages[], databaseProvider: DatabaseProvider): PkgInstallerMap => ({
   prisma: {
@@ -21,7 +22,7 @@ export const buildPkgInstallerMap = (packages: AvailablePackages[], databaseProv
   },
   trpc: {
     inUse: packages.includes("trpc"),
-    installer: () => {},
+    installer: trpcInstaller,
   },
   clerk: {
     inUse: packages.includes("clerk"),

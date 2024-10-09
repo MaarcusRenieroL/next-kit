@@ -6,6 +6,8 @@ export const dependencyVersionMap = {
   // gloabal packages
   jiti: "^1.21.6",
   "server-only": "^0.0.1",
+  // validation library
+  zod: "^3.23.8",
 
   // NextAuth.js
   "next-auth": "^4.24.7",
@@ -46,11 +48,13 @@ export const dependencyVersionMap = {
   "prettier-plugin-tailwindcss": "^0.6.5",
 
   // tRPC
-  "@trpc/client": "^11.0.0-rc.446",
-  "@trpc/server": "^11.0.0-rc.446",
-  "@trpc/react-query": "^11.0.0-rc.446",
+  "@tanstack/react-query": "^5.59.0",
+  "@trpc/client": "^11.0.0-rc.566",
+  "@trpc/react-query": "^11.0.0-rc.566",
+  "@trpc/server": "^11.0.0-rc.566",
+  "client-only": "^0.0.1",
   "@trpc/next": "^11.0.0-rc.446",
-  "@tanstack/react-query": "^5.50.0",
+
   superjson: "^2.2.1",
 
   // rest-api
