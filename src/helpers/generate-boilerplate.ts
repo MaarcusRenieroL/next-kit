@@ -13,13 +13,8 @@ export const selectLayoutFile = ({ projectDir, packages, scopedAppName }: Select
   const layoutFileDir = path.join(PKG_ROOT, "template/nextjs/app/layout");
 
   const usingTw = packages.tailwind.inUse;
-  const usingTRPC = packages.trpc.inUse;
   let layoutFile = "base.tsx";
-  if (usingTRPC && usingTw) {
-    layoutFile = "with-trpc-tw.tsx";
-  } else if (usingTRPC && !usingTw) {
-    layoutFile = "with-trpc.tsx";
-  } else if (!usingTRPC && usingTw) {
+  if (usingTw) {
     layoutFile = "with-tw.tsx";
   }
 
@@ -40,4 +35,11 @@ export const selectPageFile = ({ projectDir, scopedAppName, packages }: SelectBo
   const indexSrc = path.join(indexFileDir, indexFile);
   const indexDest = path.join(projectDir, scopedAppName === "src" ? "src" : "", "app/page.tsx");
   fs.copySync(indexSrc, indexDest);
+};
+
+export const selectProviderFile = ({ projectDir, scopedAppName }: SelectBoilerplateProps) => {
+  const providerFileDir = path.join(PKG_ROOT, "template/nextjs/providers");
+  const providerFileDest = path.join(projectDir, scopedAppName === "src" ? "src" : "", "providers");
+
+  fs.copySync(providerFileDir, providerFileDest);
 };
