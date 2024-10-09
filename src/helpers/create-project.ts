@@ -3,7 +3,7 @@ import { getUserPkgManager } from "@/utils/get-user-pkg-manager.js";
 import path from "path";
 import { installPackages } from "./install-packages.js";
 import { scaffoldProject } from "./setup-base-project.js";
-import { selectLayoutFile, selectPageFile } from "./generate-boilerplate.js";
+import { selectLayoutFile, selectPageFile, selectProviderFile } from "./generate-boilerplate.js";
 
 type CreateProjectOptions = CLIOptions & {
   packages: PkgInstallerMap;
@@ -18,16 +18,6 @@ export const createProject = async ({ packages, databaseProvider, ...options }: 
   await scaffoldProject({
     ...options,
   });
-
-  // Install the selected packages
-  installPackages({
-    ...options,
-    projectDir,
-    packageManager: options.packageManager || pkgManager,
-    packages,
-    databaseProvider,
-  });
-
   selectLayoutFile({
     ...options,
     packages,
@@ -37,6 +27,21 @@ export const createProject = async ({ packages, databaseProvider, ...options }: 
     ...options,
     packages,
     projectDir: projectDir,
+  });
+
+  selectProviderFile({
+    ...options,
+    packages,
+    projectDir: projectDir,
+  });
+
+  // Install the selected packages
+  installPackages({
+    ...options,
+    projectDir,
+    packageManager: options.packageManager || pkgManager,
+    packages,
+    databaseProvider,
   });
 
   return projectDir;
