@@ -20,5 +20,5 @@ export const installPackages = (options: InstallPackagesOptions) => {
       spinner.succeed(chalk.green(`Successfully setup boilerplate for ${chalk.green.bold(name)}`));
     }
   }
-
+  logger.info("Packages installed");
 };
