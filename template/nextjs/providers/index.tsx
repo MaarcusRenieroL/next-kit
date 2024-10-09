@@ -1,5 +1,4 @@
 // @ts-nocheck
-
 import { FC, ReactNode } from "react";
 
 type Props = {
@@ -9,4 +8,3 @@ type Props = {
 export const Providers: FC<Props> = ({ children }) => {
   return <>{children}</>;
 };
-
