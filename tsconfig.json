@@ -16,7 +16,7 @@
     "declarationMap": true,
     "sourceMap": true,
     "removeComments": true,
-
+    "jsx": "preserve",
     /* TYPE CHECKING RULES */
     "strict": true,
     // "noImplicitAny": true, // Included in "Strict"
