@@ -6,6 +6,14 @@ export const dependencyVersionMap = {
   // gloabal packages
   jiti: "^1.21.6",
   "server-only": "^0.0.1",
+
+  // eslint
+  eslint: "^8",
+  "eslint-config-next": "14.2.13",
+  "eslint-config-prettier": "^9.1.0",
+  "eslint-plugin-check-file": "^2.8.0",
+  "eslint-plugin-n": "^17.11.1",
+
   // validation library
   zod: "^3.23.8",
 
