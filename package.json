@@ -1,5 +1,5 @@
 {
-  "name": "trubo-next-cli",
+  "name": "turbo-next-cli",
   "private": true,
   "scripts": {
     "build": "turbo build",
