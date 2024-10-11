@@ -23,10 +23,9 @@ export const restApiInstaller: Installer = ({ targetDir, projectName, scopedAppN
 
   // route handler copy
   const restApiApiSrc = path.join(extrasDir, "rest-api/api/index.ts");
-  let apiRouteContent = fs.readFileSync(restApiApiSrc, "utf-8");
+  const apiRouteContent = fs.readFileSync(restApiApiSrc, "utf-8");
 
   const restApiApiDest = path.join(projectDir, scopedAppName === "src" ? "src" : "", "app/api/test/route.ts");
   fs.mkdirSync(path.dirname(restApiApiDest), { recursive: true });
   fs.writeFileSync(restApiApiDest, apiRouteContent);
 };
-

@@ -13,7 +13,7 @@ type EnvOptions = {
 
 interface EnvironmentConfigObject {
   server?: Record<string, string>;
-  client?: Object;
+  client?: object;
 }
 
 const authEnvironment: Record<Exclude<AuthType, "none" | undefined | null>, EnvironmentConfigObject> = {
@@ -43,7 +43,7 @@ const authEnvironment: Record<Exclude<AuthType, "none" | undefined | null>, Envi
   "next-auth": {},
 };
 
-const dbEnvironment: Record<Exclude<DatabaseType, "none" | undefined | null>, any> = {
+const dbEnvironment: Record<Exclude<DatabaseType, "none" | undefined | null>, { DATABASE_URL?: string; MONGO_URI?: string }> = {
   postgresql: { DATABASE_URL: "z.string().url()" },
   mysql: { DATABASE_URL: "z.string().url()" },
   sqlite: { DATABASE_URL: "z.string()" },
@@ -109,18 +109,18 @@ expand(config());
 export const env = createEnv({
     server: {
     ${Object.entries(envOptions.server)
-        .map(([key, value]) => `${key}: ${value}`)
-        .join(",\n        ")},
+      .map(([key, value]) => `${key}: ${value}`)
+      .join(",\n        ")},
     },
     client: {
     ${Object.entries(envOptions.client)
-        .map(([key, value]) => `${key}: ${value}`)
-        .join(",\n        ")},
+      .map(([key, value]) => `${key}: ${value}`)
+      .join(",\n        ")},
     },
     runtimeEnv: {
     ${Object.entries(envOptions.runtimeEnv)
-        .map(([key, value]) => `${key}: ${value}`)
-        .join(",\n        ")},
+      .map(([key, value]) => `${key}: ${value}`)
+      .join(",\n        ")},
     },
     skipValidation: ${envOptions.skipValidation},
     emptyStringAsUndefined: ${envOptions.emptyStringAsUndefined},

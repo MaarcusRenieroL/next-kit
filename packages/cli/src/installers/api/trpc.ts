@@ -20,7 +20,7 @@ export const trpcInstaller: Installer = ({ projectDir, scopedAppName }) => {
 
   // trpc route handler
   const trpcApiSrc = path.join(extrasDir, "trpc/api/index.ts");
-  let apiRouteContent = fs.readFileSync(trpcApiSrc, "utf-8");
+  const apiRouteContent = fs.readFileSync(trpcApiSrc, "utf-8");
 
   const trpcApiDest = path.join(projectDir, scopedAppName === "src" ? "src" : "", "app/api/trpc/[trpc]/route.ts");
   fs.mkdirSync(path.dirname(trpcApiDest), { recursive: true });
@@ -38,11 +38,14 @@ export const trpcInstaller: Installer = ({ projectDir, scopedAppName }) => {
   const ProviderContent = fs.readFileSync(providerIndexPathInDest, "utf-8");
 
   if (fs.existsSync(providerIndexPathInDest)) {
-    const updatedContent = ProviderContent.replace("{children}", `
+    const updatedContent = ProviderContent.replace(
+      "{children}",
+      `
       <TrpcProvider>
         {children}
       </TrpcProvider>
-      `);
+      `
+    );
     fs.writeFileSync(providerIndexPathInDest, 'import { TrpcProvider } from "@/providers/trpc-provider"\n' + updatedContent, "utf-8");
   }
 };
