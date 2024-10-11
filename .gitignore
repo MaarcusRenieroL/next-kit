@@ -40,3 +40,5 @@ tsconfig.tsbuildinfo
 .fleet
 .vscode
 node_modules
+
+pnpm-lock.yaml
