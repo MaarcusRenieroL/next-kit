@@ -8,6 +8,7 @@
     "start:cli": "turbo --filter=next-cli start",
     "build:cli": "turbo --filter=next-cli build",
     "dev:cli": "turbo --filter=next-cli dev",
+    "ui:add": "pnpm --filter @repo/ui ui:add",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "workspaces": [
