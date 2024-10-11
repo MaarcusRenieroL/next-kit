@@ -12,7 +12,7 @@ type CreateProjectOptions = CLIOptions & {
   packageList: AvailablePackages[];
 };
 
-export const createProject = async ({ packages, databaseProvider, packageList, ...options }: CreateProjectOptions) => {
+export const createProject = async ({ packages, databaseProvider, ...options }: CreateProjectOptions) => {
   const pkgManager = getUserPkgManager();
   const projectDir = path.resolve(process.cwd(), options.targetDir ? options.targetDir + "/" + options.projectName : options.projectName);
 
@@ -45,7 +45,7 @@ export const createProject = async ({ packages, databaseProvider, packageList, .
     packages,
     databaseProvider,
   });
-  
+
   setupEnv(options);
 
   return projectDir;

@@ -23,7 +23,7 @@ export const kindeInstaller: Installer = ({ targetDir, projectName, scopedAppNam
 
   // route handler copy
   const kindeApiSrc = path.join(extrasDir, "kinde/api/index.ts");
-  let apiRouteContent = fs.readFileSync(kindeApiSrc, "utf-8");
+  const apiRouteContent = fs.readFileSync(kindeApiSrc, "utf-8");
 
   const kindeApiDest = path.join(projectDir, scopedAppName === "src" ? "src" : "", "app/api/auth/[kindeAuth]/route.ts");
   fs.mkdirSync(path.dirname(kindeApiDest), { recursive: true });
@@ -38,4 +38,3 @@ KINDE_POST_LOGIN_REDIRECT_URL=http://localhost:3000/dashboard`;
 
   fs.writeFileSync(`${projectDir}/.env`, envContents);
 };
-

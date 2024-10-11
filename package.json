@@ -4,18 +4,26 @@
   "scripts": {
     "build": "turbo build",
     "dev": "turbo dev",
-    "lint": "turbo lint",
     "start:cli": "turbo --filter=next-cli start",
     "build:cli": "turbo --filter=next-cli build",
     "dev:cli": "turbo --filter=next-cli dev",
     "ui:add": "pnpm --filter @repo/ui ui:add",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "prepare": "husky",
+    "lint-staged": "lint-staged"
   },
   "workspaces": [
     "apps/*",
     "packages/*"
   ],
   "devDependencies": {
+    "@types/node": "^22.7.5",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^8",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "husky": "^9.1.6",
+    "lint-staged": "^15.2.10",
     "prettier": "^3.2.5",
     "turbo": "^2.1.3",
     "typescript": "^5.4.5"

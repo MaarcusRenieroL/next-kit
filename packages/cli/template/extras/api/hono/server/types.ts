@@ -1,4 +1,3 @@
 export type Bindings = {
-    DATABASE_URL: string;
-  };
-  
+  DATABASE_URL: string;
+};

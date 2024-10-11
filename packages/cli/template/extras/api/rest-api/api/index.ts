@@ -1,16 +1,16 @@
 // @ts-nocheck
-import { NextResponse } from 'next/server';
+import { NextResponse } from "next/server";
 
-let items: { id: number; name: string }[] = [
-  { id: 1, name: 'Item 1' },
-  { id: 2, name: 'Item 2' },
+const items: { id: number; name: string }[] = [
+  { id: 1, name: "Item 1" },
+  { id: 2, name: "Item 2" },
 ];
 
 export async function GET() {
   return NextResponse.json(
     {
       success: true,
-      message: 'Items fetched successfully',
+      message: "Items fetched successfully",
       data: items,
     },
     { status: 200 }
@@ -22,10 +22,7 @@ export async function POST(req: Request) {
     const { name } = await req.json();
 
     if (!name) {
-      return NextResponse.json(
-        { success: false, message: 'Name is required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ success: false, message: "Name is required" }, { status: 400 });
     }
 
     const newItem = { id: items.length + 1, name };
@@ -34,16 +31,13 @@ export async function POST(req: Request) {
     return NextResponse.json(
       {
         success: true,
-        message: 'Item added successfully',
+        message: "Item added successfully",
         data: newItem,
       },
       { status: 201 }
     );
-  } catch (error) {
-    return NextResponse.json(
-      { success: false, message: 'Invalid request payload' },
-      { status: 400 }
-    );
+  } catch {
+    return NextResponse.json({ success: false, message: "Invalid request payload" }, { status: 400 });
   }
 }
 
@@ -52,19 +46,13 @@ export async function PUT(req: Request) {
     const { id, name } = await req.json();
 
     if (!id || !name) {
-      return NextResponse.json(
-        { success: false, message: 'ID and name are required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ success: false, message: "ID and name are required" }, { status: 400 });
     }
 
     const itemIndex = items.findIndex((item) => item.id === id);
 
     if (itemIndex === -1) {
-      return NextResponse.json(
-        { success: false, message: 'Item not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ success: false, message: "Item not found" }, { status: 404 });
     }
 
     items[itemIndex].name = name;
@@ -72,16 +60,13 @@ export async function PUT(req: Request) {
     return NextResponse.json(
       {
         success: true,
-        message: 'Item updated successfully',
+        message: "Item updated successfully",
         data: items[itemIndex],
       },
       { status: 200 }
     );
-  } catch (error) {
-    return NextResponse.json(
-      { success: false, message: 'Invalid request payload' },
-      { status: 400 }
-    );
+  } catch {
+    return NextResponse.json({ success: false, message: "Invalid request payload" }, { status: 400 });
   }
 }
 
@@ -90,19 +75,13 @@ export async function DELETE(req: Request) {
     const { id } = await req.json();
 
     if (!id) {
-      return NextResponse.json(
-        { success: false, message: 'ID is required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ success: false, message: "ID is required" }, { status: 400 });
     }
 
     const itemIndex = items.findIndex((item) => item.id === id);
 
     if (itemIndex === -1) {
-      return NextResponse.json(
-        { success: false, message: 'Item not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ success: false, message: "Item not found" }, { status: 404 });
     }
 
     const deletedItem = items.splice(itemIndex, 1);
@@ -110,15 +89,12 @@ export async function DELETE(req: Request) {
     return NextResponse.json(
       {
         success: true,
-        message: 'Item deleted successfully',
+        message: "Item deleted successfully",
         data: deletedItem[0],
       },
       { status: 200 }
     );
-  } catch (error) {
-    return NextResponse.json(
-      { success: false, message: 'Invalid request payload' },
-      { status: 400 }
-    );
+  } catch {
+    return NextResponse.json({ success: false, message: "Invalid request payload" }, { status: 400 });
   }
 }

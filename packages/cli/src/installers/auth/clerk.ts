@@ -47,4 +47,3 @@ export const clerkInstaller: Installer = ({ targetDir, projectName, scopedAppNam
 
   fs.writeFileSync(`${projectDir}/.env`, envContents);
 };
-
