@@ -43,3 +43,10 @@ export const selectProviderFile = ({ projectDir, scopedAppName }: SelectBoilerpl
 
   fs.copySync(providerFileDir, providerFileDest);
 };
+
+export const selectLibsFile = ({ projectDir, scopedAppName }: SelectBoilerplateProps) => {
+  const libsFileDir = path.join(PKG_ROOT, "template/nextjs/libs");
+  const libsFileDest = path.join(projectDir, scopedAppName === "src" ? "src" : "", "libs");
+
+  fs.copySync(libsFileDir, libsFileDest);
+};
