@@ -24,9 +24,14 @@ export const honoInstaller: Installer = ({ targetDir, projectName, scopedAppName
   const honoDest = path.join(projectDir, scopedAppName === "src" ? "src" : "", "server");
   fs.copySync(honoSrc, honoDest);
 
+  // Copy Hono-client files
+  const honoClientSrc = path.join(extrasDir, "hono/client/index.ts");
+  const honoClientDest = path.join(projectDir, scopedAppName === "src" ? "src" : "", "lib/hono.ts");
+  fs.writeFileSync(honoClientSrc, honoClientDest);
+
   // route handler copy
   const honoApiSrc = path.join(extrasDir, "hono/api/index.ts");
-  let apiRouteContent = fs.readFileSync(honoApiSrc, "utf-8");
+  const apiRouteContent = fs.readFileSync(honoApiSrc, "utf-8");
 
   const honoApiDest = path.join(projectDir, scopedAppName === "src" ? "src" : "", "app/api/[[...route]]/route.ts");
   fs.mkdirSync(path.dirname(honoApiDest), { recursive: true });

@@ -22,6 +22,7 @@ const packageManagerXMap: Record<PackageManager, PackageManagerX> = {
 };
 
 // Helper to handle common input logic
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function getInput<T extends any | boolean>(message: string, choices?: { name: string; value: T }[], defaultValue?: T): Promise<T> {
   if (choices) {
     return await select({ message, choices, default: defaultValue });
@@ -248,6 +249,7 @@ export async function init(options: CLIOptions) {
         });
       }
 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const installPackages = (pkgList: any, isDev = false) => {
         const spinner = ora(isDev ? "Installing dev dependencies..." : "Installing dependencies...").start();
 
@@ -257,6 +259,7 @@ export async function init(options: CLIOptions) {
             return getInstallCommand(options.packageManager, pkg, isDev);
           });
 
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           commands.forEach((command: any) => {
             execSync(command, { stdio: "ignore", cwd: options.projectDir });
           });
