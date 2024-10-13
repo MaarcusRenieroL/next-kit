@@ -1,4 +1,4 @@
-import { AuthType, CLIOptions, DatabaseType } from "@/types/global.js";
+import { AuthType, CLIOptions, DatabaseType, EmailType } from "@/types/global.js";
 import { addPackageDependency } from "@/utils/add-package-dependency.js";
 import fs from "fs-extra";
 import path from "path";
@@ -50,6 +50,17 @@ const dbEnvironment: Record<Exclude<DatabaseType, "none" | undefined | null>, { 
   mongodb: { MONGO_URI: "z.string().url()" },
 };
 
+const emailEnvironment: Record<Exclude<EmailType, "none" | undefined | null>, EnvironmentConfigObject> = {
+  resend: {
+    client: {
+      RESEND_API_KEY: "z.string()",
+    },
+  },
+  mailgun: {},
+  sendgrid: {},
+  postmark: {},
+};
+
 export const setupEnv = ({ projectDir, scopedAppName, ...options }: CLIOptions) => {
   const envDir = path.join(projectDir, scopedAppName === "src" ? "src" : "", "env");
 
@@ -90,6 +101,13 @@ export const setupEnv = ({ projectDir, scopedAppName, ...options }: CLIOptions) 
     const authVars = authEnvironment[options.auth as keyof typeof authEnvironment] || {};
     Object.assign(envOptions.client, authVars.client || {});
     Object.assign(envOptions.server, authVars.server || {});
+  }
+
+  // Add email config if specified
+  if (options.email && options.email !== "none") {
+    const emailVars = emailEnvironment[options.email as keyof typeof emailEnvironment] || {};
+    Object.assign(envOptions.client, emailVars.client || {});
+    Object.assign(envOptions.server, emailVars.server || {});
   }
 
   // Populate runtimeEnv dynamically

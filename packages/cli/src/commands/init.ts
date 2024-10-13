@@ -139,6 +139,18 @@ export async function init(options: CLIOptions) {
       ]);
     }
 
+    options.email ??= await getInput(
+      "Which email package would you like to use? ›",
+      [
+        { name: "No Authentication", value: "none" },
+        { name: "Resend", value: "resend" },
+        { name: "Mailgun", value: "mailgun" },
+        { name: "Sendgrid", value: "sendgrid" },
+        { name: "Postmark", value: "postmark" },
+      ],
+      "resend"
+    );
+
     options.api ??= await getInput("How do you want to write your APIs", [
       { name: "Hono", value: "hono" },
       { name: "tRPC", value: "trpc" },
@@ -195,7 +207,15 @@ export async function init(options: CLIOptions) {
           break;
       }
 
-      const usePackages = buildPkgInstallerMap(packages, options.database);
+      switch (options.email) {
+        case "resend":
+          packages.push("resend");
+          break;
+        default:
+          break;
+      }
+
+      const usePackages = buildPkgInstallerMap(packages);
 
       await createProject({ ...options, databaseProvider: options.database, packages: usePackages, packageList: packages });
 
