@@ -42,7 +42,7 @@ export const prismaInstaller: Installer = ({ targetDir, projectName, scopedAppNa
 
   const extrasDir = path.join(PKG_ROOT, "template/extras/orm");
   const schemaSrc = path.join(extrasDir, "prisma/schema", `base.prisma`);
-  let schemaText = fs.readFileSync(schemaSrc, "utf-8");
+  const schemaText = fs.readFileSync(schemaSrc, "utf-8");
 
   const schemaDest = path.join(projectDir, "prisma/schema.prisma");
   fs.mkdirSync(path.dirname(schemaDest), { recursive: true });
@@ -68,4 +68,6 @@ export const prismaInstaller: Installer = ({ targetDir, projectName, scopedAppNa
   fs.writeJSONSync(packageJsonPath, packageJsonContent, {
     spaces: 2,
   });
+
+  fs.appendFileSync(`${projectDir}/.env`, "DATABASE_URL=YOUR_DATABASE_URL");
 };

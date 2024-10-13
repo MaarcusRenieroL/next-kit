@@ -1,4 +1,4 @@
-import { AvailablePackages, DatabaseProvider, PkgInstallerMap } from "@/types/global.js";
+import { AvailablePackages, PkgInstallerMap } from "@/types/global.js";
 import { honoInstaller } from "@/installers/api/hono.js";
 import { prismaInstaller } from "@/installers/orm/prisma.js";
 import { tailwindInstaller } from "@/installers/ui/tailwind.js";
@@ -7,8 +7,9 @@ import { kindeInstaller } from "@/installers/auth/kinde.js";
 import { restApiInstaller } from "@/installers/api/rest-api.js";
 import { trpcInstaller } from "./api/trpc.js";
 import { eslintInstaller } from "@/installers/config/eslint.js";
+import { resendInstaller } from "./email/resend.js";
 
-export const buildPkgInstallerMap = (packages: AvailablePackages[], databaseProvider: DatabaseProvider): PkgInstallerMap => ({
+export const buildPkgInstallerMap = (packages: AvailablePackages[]): PkgInstallerMap => ({
   prisma: {
     inUse: packages.includes("prisma"),
     installer: prismaInstaller,
@@ -40,5 +41,9 @@ export const buildPkgInstallerMap = (packages: AvailablePackages[], databaseProv
   "rest-api": {
     inUse: packages.includes("rest-api"),
     installer: restApiInstaller,
+  },
+  resend: {
+    inUse: packages.includes("resend"),
+    installer: () => resendInstaller,
   },
 });

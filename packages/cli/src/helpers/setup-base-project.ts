@@ -71,7 +71,7 @@ export const scaffoldProject = async ({ projectName, targetDir }: CLIOptions) =>
     fs.copySync(srcDir, projectDir);
     fs.renameSync(path.join(projectDir, "_gitignore"), path.join(projectDir, ".gitignore"));
     fs.writeFileSync(path.join(projectDir, "next.config.js"), nextConfigContent);
-    fs.writeFileSync(path.join(projectDir, ".env"), "utf-8");
+    fs.writeFileSync(path.join(projectDir, ".env"), "");
 
     const scaffoldedName = projectName === "." ? "Next Cli App" : chalk.cyan.bold(projectName);
 

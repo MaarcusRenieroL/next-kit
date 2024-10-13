@@ -72,6 +72,9 @@ export const dependencyVersionMap = {
 
   // rest-api
   axios: "^1.7.7",
+
+  // resend
+  resend: "4.0.0",
 } as const;
 
 export type AvailableDependencies = keyof typeof dependencyVersionMap;

@@ -4,7 +4,7 @@ export type PackageManagerX = "npx" | "pnpx" | "yarn" | "bunx";
 export type UILibrary = "shadcn-ui" | "radix-ui" | "chakra-ui" | "none" | null | undefined;
 export type ORM = "prisma" | "drizzle" | "none" | null | undefined;
 export type DatabaseType = "postgresql" | "mysql" | "sqlite" | "mongodb" | "none" | null | undefined;
-export type Email = "sendgrid" | "mailgun" | "postmark" | "resend" | "none" | null | undefined;
+export type EmailType = "sendgrid" | "mailgun" | "postmark" | "resend" | "none" | null | undefined;
 export type Payment = "stripe" | "lemon-squeezy" | "razorpay" | "paypal" | "none" | null | undefined;
 export type Analytics = "vercel-analytics" | "google-analytics" | "none" | null;
 export type API = "rest" | "trpc" | "graphql" | "hono" | "none" | null | undefined;
@@ -24,7 +24,7 @@ interface PackagesOptions {
   uiLibrary: UILibrary;
   database: DatabaseType;
   auth: AuthType;
-  email: Email;
+  email: EmailType;
   payment: Payment;
   analytics: Analytics;
   orm: ORM;
@@ -36,12 +36,11 @@ export interface CLIOptions extends NextJSOptions, PackagesOptions {
   packageManager: PackageManager;
   packageManagerX: PackageManagerX;
   alias: string;
-  template?: any;
   targetDir?: string;
   projectDir: string;
 }
 
-export const availablePackages = ["prisma", "hono", "tailwind", "trpc", "clerk", "kinde", "rest-api", "eslint"] as const;
+export const availablePackages = ["prisma", "hono", "tailwind", "trpc", "clerk", "kinde", "rest-api", "eslint", "resend"] as const;
 export type AvailablePackages = (typeof availablePackages)[number];
 
 export type Installer = (opts: CLIOptions) => void;
