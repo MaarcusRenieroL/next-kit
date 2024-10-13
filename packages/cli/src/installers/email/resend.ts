@@ -4,7 +4,7 @@ import { addPackageDependency } from "@/utils/add-package-dependency.js";
 import fs from "fs-extra";
 import path from "path";
 
-export const resendInstaller: Installer = ({ targetDir, projectName, scopedAppName }) => {
+export const resendInstaller: Installer = ({ targetDir, projectName, scopedAppName, empty }) => {
   const projectDir = targetDir ? path.join(targetDir, projectName) : projectName;
 
   if (!projectDir) {
@@ -13,12 +13,14 @@ export const resendInstaller: Installer = ({ targetDir, projectName, scopedAppNa
 
   addPackageDependency({ projectDir, dependencies: ["resend"], devMode: false });
 
-  const extrasDir = path.join(PKG_ROOT, "template/extras");
-  const resendSrc = path.join(extrasDir, "email/resend");
+  if (!empty) {
+    const extrasDir = path.join(PKG_ROOT, "template/extras");
+    const resendSrc = path.join(extrasDir, "email/resend");
 
-  const resendDest = path.join(projectDir, scopedAppName === "src" ? "src" : "");
+    const resendDest = path.join(projectDir, scopedAppName === "src" ? "src" : "");
 
-  fs.copySync(resendSrc, resendDest, { overwrite: false });
+    fs.copySync(resendSrc, resendDest, { overwrite: false });
 
-  fs.appendFileSync(`${projectDir}/.env`, "\n\nRESEND_API_KEY=YOUR_RESEND_API_KEY");
+    fs.appendFileSync(`${projectDir}/.env`, "\n\nRESEND_API_KEY=YOUR_RESEND_API_KEY");
+  }
 };

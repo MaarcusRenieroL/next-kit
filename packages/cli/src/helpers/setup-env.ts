@@ -71,52 +71,53 @@ export const setupEnv = ({ projectDir, scopedAppName, ...options }: CLIOptions) 
     devMode: false,
   });
 
-  // Ensure the `env` directory exists
-  if (!fs.existsSync(envDir)) {
-    fs.mkdirSync(envDir, { recursive: true });
-  }
+  if (!options.empty) {
+    // Ensure the `env` directory exists
+    if (!fs.existsSync(envDir)) {
+      fs.mkdirSync(envDir, { recursive: true });
+    }
 
-  // Define basic env options
-  const envOptions: EnvOptions = {
-    server: {
-      NODE_ENV: 'z.enum(["development", "test", "production"]).default("development")',
-    },
-    client: {
-      NEXT_PUBLIC_NODE_ENV: 'z.enum(["development", "test", "production"]).default("development")',
-      NEXT_PUBLIC_APP_URL: 'z.string().url().default(process.env.NEXT_PUBLIC_APP_URL || "")',
-      NEXT_PUBLIC_VERCEL_URL: "z.string().optional()",
-    },
-    runtimeEnv: {},
-    skipValidation: !!process.env.SKIP_ENV_VALIDATION,
-    emptyStringAsUndefined: true,
-  };
+    // Define basic env options
+    const envOptions: EnvOptions = {
+      server: {
+        NODE_ENV: 'z.enum(["development", "test", "production"]).default("development")',
+      },
+      client: {
+        NEXT_PUBLIC_NODE_ENV: 'z.enum(["development", "test", "production"]).default("development")',
+        NEXT_PUBLIC_APP_URL: 'z.string().url().default(process.env.NEXT_PUBLIC_APP_URL || "")',
+        NEXT_PUBLIC_VERCEL_URL: "z.string().optional()",
+      },
+      runtimeEnv: {},
+      skipValidation: !!process.env.SKIP_ENV_VALIDATION,
+      emptyStringAsUndefined: true,
+    };
 
-  // Add database config if specified
-  if (options.database && options.database !== "none") {
-    Object.assign(envOptions.server, dbEnvironment[options.database as keyof typeof dbEnvironment] || {});
-  }
+    // Add database config if specified
+    if (options.database && options.database !== "none") {
+      Object.assign(envOptions.server, dbEnvironment[options.database as keyof typeof dbEnvironment] || {});
+    }
 
-  // Add auth config if specified
-  if (options.auth && options.auth !== "none") {
-    const authVars = authEnvironment[options.auth as keyof typeof authEnvironment] || {};
-    Object.assign(envOptions.client, authVars.client || {});
-    Object.assign(envOptions.server, authVars.server || {});
-  }
+    // Add auth config if specified
+    if (options.auth && options.auth !== "none") {
+      const authVars = authEnvironment[options.auth as keyof typeof authEnvironment] || {};
+      Object.assign(envOptions.client, authVars.client || {});
+      Object.assign(envOptions.server, authVars.server || {});
+    }
 
-  // Add email config if specified
-  if (options.email && options.email !== "none") {
-    const emailVars = emailEnvironment[options.email as keyof typeof emailEnvironment] || {};
-    Object.assign(envOptions.client, emailVars.client || {});
-    Object.assign(envOptions.server, emailVars.server || {});
-  }
+    // Add email config if specified
+    if (options.email && options.email !== "none") {
+      const emailVars = emailEnvironment[options.email as keyof typeof emailEnvironment] || {};
+      Object.assign(envOptions.client, emailVars.client || {});
+      Object.assign(envOptions.server, emailVars.server || {});
+    }
 
-  // Populate runtimeEnv dynamically
-  for (const [key] of Object.entries({ ...envOptions.server, ...envOptions.client })) {
-    envOptions.runtimeEnv[key] = `process.env.${key}`;
-  }
+    // Populate runtimeEnv dynamically
+    for (const [key] of Object.entries({ ...envOptions.server, ...envOptions.client })) {
+      envOptions.runtimeEnv[key] = `process.env.${key}`;
+    }
 
-  // Generate environment file content without quotes around keys
-  const envFileContent = `
+    // Generate environment file content without quotes around keys
+    const envFileContent = `
 import { createEnv } from "@t3-oss/env-nextjs";
 import { config } from "dotenv";
 import { expand } from "dotenv-expand";
@@ -149,6 +150,7 @@ export const env = createEnv({
 });
   `;
 
-  // Write the environment configuration to the index.ts file
-  fs.writeFileSync(path.join(envDir, "index.ts"), envFileContent.trim());
+    // Write the environment configuration to the index.ts file
+    fs.writeFileSync(path.join(envDir, "index.ts"), envFileContent.trim());
+  }
 };

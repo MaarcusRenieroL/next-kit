@@ -4,7 +4,7 @@ import { addPackageDependency } from "@/utils/add-package-dependency.js";
 import fs from "fs-extra";
 import path from "path";
 
-export const restApiInstaller: Installer = ({ targetDir, projectName, scopedAppName }) => {
+export const restApiInstaller: Installer = ({ targetDir, projectName, scopedAppName, empty }) => {
   const projectDir = targetDir ? path.join(targetDir, projectName) : projectName;
 
   if (!projectDir) {
@@ -18,14 +18,16 @@ export const restApiInstaller: Installer = ({ targetDir, projectName, scopedAppN
     devMode: false,
   });
 
-  // Copy rest api specific files
-  const extrasDir = path.join(PKG_ROOT, "template/extras/api");
+  if (!empty) {
+    // Copy rest api specific files
+    const extrasDir = path.join(PKG_ROOT, "template/extras/api");
 
-  // route handler copy
-  const restApiApiSrc = path.join(extrasDir, "rest-api/api/index.ts");
-  const apiRouteContent = fs.readFileSync(restApiApiSrc, "utf-8");
+    // route handler copy
+    const restApiApiSrc = path.join(extrasDir, "rest-api/api/index.ts");
+    const apiRouteContent = fs.readFileSync(restApiApiSrc, "utf-8");
 
-  const restApiApiDest = path.join(projectDir, scopedAppName === "src" ? "src" : "", "app/api/test/route.ts");
-  fs.mkdirSync(path.dirname(restApiApiDest), { recursive: true });
-  fs.writeFileSync(restApiApiDest, apiRouteContent);
+    const restApiApiDest = path.join(projectDir, scopedAppName === "src" ? "src" : "", "app/api/test/route.ts");
+    fs.mkdirSync(path.dirname(restApiApiDest), { recursive: true });
+    fs.writeFileSync(restApiApiDest, apiRouteContent);
+  }
 };

@@ -5,7 +5,7 @@ import { existsSync } from "fs";
 import fs from "fs-extra";
 import path from "path";
 
-export const clerkInstaller: Installer = ({ targetDir, projectName, scopedAppName }) => {
+export const clerkInstaller: Installer = ({ targetDir, projectName, scopedAppName, empty }) => {
   const projectDir = targetDir ? path.join(targetDir, projectName) : projectName;
 
   if (!projectDir) {
@@ -19,31 +19,33 @@ export const clerkInstaller: Installer = ({ targetDir, projectName, scopedAppNam
     devMode: false,
   });
 
-  // Copy Clerk-specific files
-  const extrasDir = path.join(PKG_ROOT, "template/extras");
-  const clerkSrc = path.join(extrasDir, "auth/clerk");
-  const clerkDest = path.join(projectDir, scopedAppName === "src" ? "src" : "");
-  fs.copySync(clerkSrc, clerkDest, { overwrite: false });
+  if (!empty) {
+    // Copy Clerk-specific files
+    const extrasDir = path.join(PKG_ROOT, "template/extras");
+    const clerkSrc = path.join(extrasDir, "auth/clerk");
+    const clerkDest = path.join(projectDir, scopedAppName === "src" ? "src" : "");
+    fs.copySync(clerkSrc, clerkDest, { overwrite: false });
 
-  // below is the provider path in generated app
-  const providerIndexPathInDest = path.join(clerkDest, "providers/index.tsx");
+    // below is the provider path in generated app
+    const providerIndexPathInDest = path.join(clerkDest, "providers/index.tsx");
 
-  if (existsSync(providerIndexPathInDest)) {
-    const ProviderContent = fs.readFileSync(providerIndexPathInDest, "utf-8");
-    const updatedContent = ProviderContent.replace(
-      "{children}",
-      `
+    if (existsSync(providerIndexPathInDest)) {
+      const ProviderContent = fs.readFileSync(providerIndexPathInDest, "utf-8");
+      const updatedContent = ProviderContent.replace(
+        "{children}",
+        `
       <ClerkProvider>
         {children}
       </ClerkProvider>
       `
-    );
-    fs.writeFileSync(providerIndexPathInDest, 'import { ClerkProvider } from "@/providers/clerk-provider"\n' + updatedContent, "utf-8");
-  }
+      );
+      fs.writeFileSync(providerIndexPathInDest, 'import { ClerkProvider } from "@/providers/clerk-provider"\n' + updatedContent, "utf-8");
+    }
 
-  const envContents = `
+    const envContents = `
   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=YOUR_PUBLISHABLE_KEY
   CLERK_SECRET_KEY=YOUR_SECRET_KEY`;
 
-  fs.appendFileSync(`${projectDir}/.env`, envContents);
+    fs.appendFileSync(`${projectDir}/.env`, envContents);
+  }
 };

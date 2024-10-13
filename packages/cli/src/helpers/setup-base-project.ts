@@ -8,7 +8,7 @@ import { PKG_ROOT } from "@/constants/index.js";
 import { CLIOptions } from "@/types/global.js";
 
 // This bootstraps the base Next.js application
-export const scaffoldProject = async ({ projectName, targetDir }: CLIOptions) => {
+export const scaffoldProject = async ({ projectName, targetDir, empty }: CLIOptions) => {
   try {
     const projectDir = targetDir ? path.join(targetDir, projectName) : projectName;
     const srcDir = path.join(PKG_ROOT, "template/base");
@@ -64,9 +64,25 @@ export const scaffoldProject = async ({ projectName, targetDir }: CLIOptions) =>
 
     spinner.start();
 
+    const setupEnvContents = `import createJiti from "jiti";
+import { fileURLToPath } from "node:url";
+
+const jiti = createJiti(fileURLToPath(import.meta.url));
+jiti("./src/env/index.ts");
+
+    `;
+
     const nextConfigPath = path.join(srcDir, "next.config.js");
     let nextConfigContent = fs.readFileSync(nextConfigPath, "utf8");
     nextConfigContent = nextConfigContent.replace(/\/\/ @ts-nocheck\r?\n/, "");
+
+    const typeLine = "/** @type {import('next').NextConfig} */";
+
+    if (!empty) {
+      if (nextConfigContent.includes(typeLine)) {
+        nextConfigContent = nextConfigContent.replace(typeLine, `${typeLine}\n\n${setupEnvContents}`);
+      }
+    }
 
     fs.copySync(srcDir, projectDir);
     fs.renameSync(path.join(projectDir, "_gitignore"), path.join(projectDir, ".gitignore"));

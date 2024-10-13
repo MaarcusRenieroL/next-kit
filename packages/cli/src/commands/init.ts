@@ -234,41 +234,6 @@ export async function init(options: CLIOptions) {
       const dependencies = packageJsonContents.dependencies || {};
       const devDependencies = packageJsonContents.devDependencies || {};
 
-      console.log(`\nInstalling dependencies...`);
-      if (dependencies) {
-        Object.entries(dependencies).forEach(([pkgName, version]) => {
-          const pkg = `${pkgName}@${version}`;
-          const spinner = ora(`Installing package: ${chalk.cyan(pkg)}...`).start();
-
-          try {
-            const command = getInstallCommand(options.packageManager, pkg, false);
-            execSync(command, { stdio: "ignore", cwd: options.projectDir });
-            spinner.succeed(`${chalk.green("Successfully installed")} ${chalk.cyan(pkg)}`);
-          } catch (error) {
-            spinner.fail(`${chalk.red("Failed to install")} ${chalk.cyan(pkg)}`);
-            console.error(error);
-          }
-        });
-      }
-
-      console.log(`\nInstalling dev dependencies...`);
-
-      if (devDependencies) {
-        Object.entries(devDependencies).forEach(([pkgName, version]) => {
-          const pkg = `${pkgName}@${version}`;
-          const spinner = ora(`Installing package: ${chalk.cyan(pkg)}...`).start();
-
-          try {
-            const command = getInstallCommand(options.packageManager, pkg, true);
-            execSync(command, { stdio: "ignore", cwd: options.projectDir });
-            spinner.succeed(`${chalk.green("Successfully installed")} ${chalk.cyan(pkg)}`);
-          } catch (error) {
-            spinner.fail(`${chalk.red("Failed to install")} ${chalk.cyan(pkg)}`);
-            console.error(error);
-          }
-        });
-      }
-
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const installPackages = (pkgList: any, isDev = false) => {
         const spinner = ora(isDev ? "Installing dev dependencies..." : "Installing dependencies...").start();

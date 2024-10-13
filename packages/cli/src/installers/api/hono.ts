@@ -4,7 +4,7 @@ import { addPackageDependency } from "@/utils/add-package-dependency.js";
 import fs from "fs-extra";
 import path from "path";
 
-export const honoInstaller: Installer = ({ targetDir, projectName, scopedAppName }) => {
+export const honoInstaller: Installer = ({ targetDir, projectName, scopedAppName, empty }) => {
   const projectDir = targetDir ? path.join(targetDir, projectName) : projectName;
 
   if (!projectDir) {
@@ -18,22 +18,24 @@ export const honoInstaller: Installer = ({ targetDir, projectName, scopedAppName
     devMode: false,
   });
 
-  // Copy Hono-specific files
-  const extrasDir = path.join(PKG_ROOT, "template/extras/api");
-  const honoSrc = path.join(extrasDir, "hono/server");
-  const honoDest = path.join(projectDir, scopedAppName === "src" ? "src" : "", "server");
-  fs.copySync(honoSrc, honoDest);
+  if (!empty) {
+    // Copy Hono-specific files
+    const extrasDir = path.join(PKG_ROOT, "template/extras/api");
+    const honoSrc = path.join(extrasDir, "hono/server");
+    const honoDest = path.join(projectDir, scopedAppName === "src" ? "src" : "", "server");
+    fs.copySync(honoSrc, honoDest);
 
-  // Copy Hono-client files
-  const honoClientSrc = path.join(extrasDir, "hono/client/index.ts");
-  const honoClientDest = path.join(projectDir, scopedAppName === "src" ? "src" : "", "lib/hono.ts");
-  fs.writeFileSync(honoClientSrc, honoClientDest);
+    // Copy Hono-client files
+    const honoClientSrc = path.join(extrasDir, "hono/client/index.ts");
+    const honoClientDest = path.join(projectDir, scopedAppName === "src" ? "src" : "", "lib/hono.ts");
+    fs.writeFileSync(honoClientSrc, honoClientDest);
 
-  // route handler copy
-  const honoApiSrc = path.join(extrasDir, "hono/api/index.ts");
-  const apiRouteContent = fs.readFileSync(honoApiSrc, "utf-8");
+    // route handler copy
+    const honoApiSrc = path.join(extrasDir, "hono/api/index.ts");
+    const apiRouteContent = fs.readFileSync(honoApiSrc, "utf-8");
 
-  const honoApiDest = path.join(projectDir, scopedAppName === "src" ? "src" : "", "app/api/[[...route]]/route.ts");
-  fs.mkdirSync(path.dirname(honoApiDest), { recursive: true });
-  fs.writeFileSync(honoApiDest, apiRouteContent);
+    const honoApiDest = path.join(projectDir, scopedAppName === "src" ? "src" : "", "app/api/[[...route]]/route.ts");
+    fs.mkdirSync(path.dirname(honoApiDest), { recursive: true });
+    fs.writeFileSync(honoApiDest, apiRouteContent);
+  }
 };
