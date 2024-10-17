@@ -26,7 +26,8 @@
     "react/no-unknown-property": "off",
     "react/prop-types": "off",
     "@typescript-eslint/ban-ts-comment": "off",
-    "@typescript-eslint/no-explicit-any": "off"
+    "@typescript-eslint/no-explicit-any": "off",
+    "jsx-a11y/heading-has-content": "off"
   },
   "settings": {
     "react": {
