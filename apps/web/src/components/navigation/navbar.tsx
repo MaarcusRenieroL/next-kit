@@ -14,11 +14,11 @@ export const Navbar: FC = () => {
       <div className="container flex h-14 max-w-screen-2xl items-center">
         <MainNav />
         <MobileNav />
-        <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
+        <div className="flex flex-1 items-center justify-between space-x-5 md:justify-end">
           <div className="w-full flex-1 md:w-auto md:flex-none">
             <CommandMenu />
           </div>
-          <nav className="flex items-center">
+          <nav className="flex items-center space-x-5">
             <Link
               href="https://github.com/MaarcusRenieroL/next-cli"
               target="_blank"
