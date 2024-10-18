@@ -60,10 +60,10 @@ export const HeroSection: FC = () => {
         >
           <div className="flex flex-col items-center md:items-start justify-center md:text-left text-center">
             <Badge>npx next-cli</Badge>
-            <h1 className="text-4xl md:text-7xl font-bold mb-6 dark:text-zinc-100 text-zinc-700 max-w-4xl mt-5">
+            <h1 className="text-3xl md:text-5xl font-bold mb-6 dark:text-zinc-100 text-zinc-700 max-w-4xl mt-5">
               Setup production grade full stack applications in seconds
             </h1>
-            <h2 className="text-sm sm:text-xl text-zinc-500 dark:text-zinc-300 tracking-wide mb-8 max-w-2xl antialiased leading-loose">
+            <h2 className="text-sm sm:text-lg text-zinc-500 dark:text-zinc-300 tracking-wide mb-8 max-w-2xl antialiased leading-loose">
               Copy paste the most trending components and use them in your
               websites without having to worry about styling and animations.
             </h2>

@@ -20,7 +20,7 @@ export const FeatureSection: FC = () => {
         <FeatureCard
           title="Multiple Library and Framework Integration"
           description="Seamlessly integrate popular libraries and frameworks like React, Vue, Angular, Tailwind, and more during project setup."
-          highlight="Flexibility to choose the right tools based on your project's needs."
+          highlight="Flexibility to choose the right tools for your project."
           CardIcon={Package}
         />
         <FeatureCard
