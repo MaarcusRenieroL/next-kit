@@ -25,7 +25,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${poppins.className} antialiased`}>
+      <body className={`${poppins.className} antialiased relative`}>
         <Providers>
           <Navbar />
           <main className="px-6 py-4">{children}</main>

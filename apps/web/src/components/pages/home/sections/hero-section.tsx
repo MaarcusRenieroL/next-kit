@@ -7,49 +7,7 @@ import PlaceholderImage from "../../../../../public/assets/placeholder.svg";
 
 export const HeroSection: FC = () => {
   return (
-    <div className="relative pt-10 lg:p-10 overflow-hidden text-center">
-      <div className="absolute inset-0 dark:bg-grid-white/[0.06] bg-grid-black/[0.04] [mask-image:linear-gradient(to_bottom,white_5%,transparent_20%)] pointer-events-none select-none"></div>
-      <svg
-        className="animate-spotlight pointer-events-none absolute z-[1] h-[169%] w-[138%] lg:w-[84%] opacity-0 -top-[40rem] left-0 md:left-60 md:-top-[30rem]"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 3787 2842"
-        fill="none"
-      >
-        <g filter="url(#filter)">
-          <ellipse
-            cx="1924.71"
-            cy="273.501"
-            rx="1924.71"
-            ry="273.501"
-            transform="matrix(-0.822377 -0.568943 -0.568943 0.822377 3631.88 2291.09)"
-            className="dark:fill-white/[0.4] fill-transparent"
-            fill-opacity="0.21"
-          ></ellipse>
-        </g>
-        <defs>
-          <filter
-            id="filter"
-            x="0.860352"
-            y="0.838989"
-            width="3785.16"
-            height="2840.26"
-            filterUnits="userSpaceOnUse"
-            color-interpolation-filters="sRGB"
-          >
-            <feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood>
-            <feBlend
-              mode="normal"
-              in="SourceGraphic"
-              in2="BackgroundImageFix"
-              result="shape"
-            ></feBlend>
-            <feGaussianBlur
-              stdDeviation="151"
-              result="effect1_foregroundBlur_1065_8"
-            ></feGaussianBlur>
-          </filter>
-        </defs>
-      </svg>
+    <div className="pt-10 lg:p-10 overflow-hidden text-center">
       <div className="max-w-[84rem] w-full mx-auto relative z-20">
         <div
           className="grid grid-cols-1 xl:grid-cols-2 gap-10"
@@ -80,7 +38,8 @@ export const HeroSection: FC = () => {
               </Link>
             </div>
           </div>
-          <div className="h-full w-full">
+          <div className="h-full w-full relative">
+            <div className="w-[500px] blur-[120px] rounded-full absolute bg-primary/30 -z-100 md:bottom-54 bottom-0 right-0 flex items-center justify-center h-3/4" />
             <Image
               src={PlaceholderImage}
               className="w-full h-full dark:invert filter invert-0"
