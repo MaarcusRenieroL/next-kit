@@ -118,7 +118,6 @@ export async function init(options: CLIOptions) {
           { name: "Next Auth", value: "next-auth" },
           { name: "Clerk", value: "clerk" },
           { name: "Kinde", value: "kinde" },
-          { name: "Lucia", value: "lucia" },
           { name: "No Authentication", value: "none" },
         ],
         "next-auth"
@@ -136,7 +135,6 @@ export async function init(options: CLIOptions) {
         { name: "No Authentication", value: "none" },
         { name: "Clerk", value: "clerk" },
         { name: "Kinde", value: "kinde" },
-        { name: "Lucia", value: "lucia" },
       ]);
     }
 
