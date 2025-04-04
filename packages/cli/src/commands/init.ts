@@ -83,8 +83,6 @@ export async function init(options: CLIOptions) {
       [
         { name: "No UI Library", value: "none" },
         { name: "ShadCN UI", value: "shadcn-ui" },
-        { name: "Radix UI", value: "radix-ui" },
-        { name: "Chakra UI", value: "chakra-ui" },
       ],
       "shadcn-ui"
     );
@@ -214,6 +212,16 @@ export async function init(options: CLIOptions) {
           break;
       }
 
+      switch (options.analytics) {
+        case "vercel-analytics":
+          packages.push("vercel-analytics");
+          break;
+        case "google-analytics":
+          packages.push("google-analytics");
+          break;
+        default:
+          break;
+      }
       const usePackages = buildPkgInstallerMap(packages);
 
       await createProject({ ...options, databaseProvider: options.database, packages: usePackages, packageList: packages });

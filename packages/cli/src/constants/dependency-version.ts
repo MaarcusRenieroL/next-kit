@@ -75,6 +75,9 @@ export const dependencyVersionMap = {
 
   // resend
   resend: "4.0.0",
+
+  // Analytics
+  "@vercel/analytics": "^1.5.0",
 } as const;
 
 export type AvailableDependencies = keyof typeof dependencyVersionMap;

@@ -8,6 +8,8 @@ import { restApiInstaller } from "@/installers/api/rest-api.js";
 import { trpcInstaller } from "./api/trpc.js";
 import { eslintInstaller } from "@/installers/config/eslint.js";
 import { resendInstaller } from "./email/resend.js";
+import { vercelAnalyticsInstaller } from "./analytics/vercel.js";
+import { googleAnalyticsInstaller } from "./analytics/google.js";
 
 export const buildPkgInstallerMap = (packages: AvailablePackages[]): PkgInstallerMap => ({
   prisma: {
@@ -45,5 +47,13 @@ export const buildPkgInstallerMap = (packages: AvailablePackages[]): PkgInstalle
   resend: {
     inUse: packages.includes("resend"),
     installer: () => resendInstaller,
+  },
+  "vercel-analytics": {
+    inUse: packages.includes("vercel-analytics"),
+    installer: vercelAnalyticsInstaller,
+  },
+  "google-analytics": {
+    inUse: packages.includes("google-analytics"),
+    installer: googleAnalyticsInstaller,
   },
 });

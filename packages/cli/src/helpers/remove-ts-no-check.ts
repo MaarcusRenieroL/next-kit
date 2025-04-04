@@ -20,3 +20,9 @@ function removeTsNoCheckInFiles(directoryPath: string): void {
 export const removeTsNoCheck = (projectDir: string) => {
   removeTsNoCheckInFiles(projectDir);
 };
+
+export function removeTsNoCheckCommentFromContent(content: string): string {
+  // Remove the @ts-nocheck comment if it exists
+  const updatedContent = content.replace(/\/\/\s?@ts-nocheck\s?/g, "");
+  return updatedContent;
+}
