@@ -76,6 +76,23 @@ export const dependencyVersionMap = {
   // resend
   resend: "4.0.0",
 
+  // email providers
+  "@sendgrid/mail": "^8.1.3",
+  "mailgun.js": "^10.2.3",
+  "form-data": "^4.0.1",
+  postmark: "^4.0.5",
+
+  // graphql
+  graphql: "^16.9.0",
+  "graphql-yoga": "^5.7.0",
+
+  // payments
+  stripe: "^16.12.0",
+  "@stripe/stripe-js": "^4.8.0",
+  "@paypal/react-paypal-js": "^8.7.0",
+  "@lemonsqueezy/lemonsqueezy.js": "^3.3.1",
+  razorpay: "^2.9.4",
+
   // Analytics
   "@vercel/analytics": "^1.5.0",
 } as const;

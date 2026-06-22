@@ -39,8 +39,13 @@ const authEnvironment: Record<Exclude<AuthType, "none" | undefined | null>, Envi
       KINDE_POST_LOGIN_REDIRECT_URL: "z.string()",
     },
   },
-  lucia: {},
-  "next-auth": {},
+  "next-auth": {
+    server: {
+      NEXTAUTH_SECRET: "z.string()",
+      GITHUB_CLIENT_ID: "z.string()",
+      GITHUB_CLIENT_SECRET: "z.string()",
+    },
+  },
 };
 
 const dbEnvironment: Record<Exclude<DatabaseType, "none" | undefined | null>, { DATABASE_URL?: string; MONGO_URI?: string }> = {
@@ -56,9 +61,25 @@ const emailEnvironment: Record<Exclude<EmailType, "none" | undefined | null>, En
       RESEND_API_KEY: "z.string()",
     },
   },
-  mailgun: {},
-  sendgrid: {},
-  postmark: {},
+  mailgun: {
+    server: {
+      MAILGUN_API_KEY: "z.string()",
+      MAILGUN_DOMAIN: "z.string()",
+      MAILGUN_FROM_EMAIL: "z.string()",
+    },
+  },
+  sendgrid: {
+    server: {
+      SENDGRID_API_KEY: "z.string()",
+      SENDGRID_FROM_EMAIL: "z.string()",
+    },
+  },
+  postmark: {
+    server: {
+      POSTMARK_SERVER_TOKEN: "z.string()",
+      POSTMARK_FROM_EMAIL: "z.string()",
+    },
+  },
 };
 
 export const setupEnv = ({ projectDir, scopedAppName, ...options }: CLIOptions) => {
@@ -67,7 +88,7 @@ export const setupEnv = ({ projectDir, scopedAppName, ...options }: CLIOptions) 
   // Ensure required dependencies are installed
   addPackageDependency({
     projectDir,
-    dependencies: ["dotenv", "@t3-oss/env-nextjs"],
+    dependencies: ["dotenv", "dotenv-expand", "@t3-oss/env-nextjs"],
     devMode: false,
   });
 
