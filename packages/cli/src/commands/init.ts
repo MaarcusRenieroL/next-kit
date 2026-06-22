@@ -2,7 +2,7 @@ import { createProject } from "@/helpers/create-project.js";
 import { buildPkgInstallerMap } from "@/installers/index.js";
 import { input, select } from "@inquirer/prompts";
 import chalk from "chalk";
-import { AvailablePackages, CLIOptions, PackageManager, PackageManagerX } from "../types/global.js";
+import { AvailablePackages, CLIOptions, DatabaseProvider, PackageManager, PackageManagerX } from "../types/global.js";
 import { exit, printSuccessMessage } from "../utils/message.js";
 import { setImportAlias } from "@/helpers/set-import-alias.js";
 import path from "path";
@@ -177,60 +177,110 @@ export async function init(options: CLIOptions) {
 
     const packages: AvailablePackages[] = [];
 
+    if (options.eslint) packages.push("eslint");
+    if (options.tailwind) packages.push("tailwind");
+
     if (options.database !== "none") {
-      if (options.orm === "prisma") packages.push("prisma");
-      if (options.tailwind) packages.push("tailwind");
-
-      switch (options.api) {
-        case "hono":
-          packages.push("hono");
+      switch (options.orm) {
+        case "prisma":
+          packages.push("prisma");
           break;
-        case "trpc":
-          packages.push("trpc");
-          break;
-        case "rest":
-          packages.push("rest-api");
+        case "drizzle":
+          packages.push("drizzle");
           break;
         default:
           break;
-      }
-
-      switch (options.auth) {
-        case "clerk":
-          packages.push("clerk");
-          break;
-        case "kinde":
-          packages.push("kinde");
-          break;
-      }
-
-      switch (options.email) {
-        case "resend":
-          packages.push("resend");
-          break;
-        default:
-          break;
-      }
-
-      switch (options.analytics) {
-        case "vercel-analytics":
-          packages.push("vercel-analytics");
-          break;
-        case "google-analytics":
-          packages.push("google-analytics");
-          break;
-        default:
-          break;
-      }
-      const usePackages = buildPkgInstallerMap(packages);
-
-      await createProject({ ...options, databaseProvider: options.database, packages: usePackages, packageList: packages });
-
-      // update import alias in any generated files if not using the default
-      if (options.alias !== "@/*") {
-        setImportAlias(options.projectDir, options.alias);
       }
     }
+
+    switch (options.api) {
+      case "hono":
+        packages.push("hono");
+        break;
+      case "trpc":
+        packages.push("trpc");
+        break;
+      case "rest":
+        packages.push("rest-api");
+        break;
+      case "graphql":
+        packages.push("graphql");
+        break;
+      default:
+        break;
+    }
+
+    switch (options.auth) {
+      case "next-auth":
+        packages.push("next-auth");
+        break;
+      case "clerk":
+        packages.push("clerk");
+        break;
+      case "kinde":
+        packages.push("kinde");
+        break;
+      default:
+        break;
+    }
+
+    switch (options.email) {
+      case "resend":
+        packages.push("resend");
+        break;
+      case "sendgrid":
+        packages.push("sendgrid");
+        break;
+      case "mailgun":
+        packages.push("mailgun");
+        break;
+      case "postmark":
+        packages.push("postmark");
+        break;
+      default:
+        break;
+    }
+
+    switch (options.payment) {
+      case "stripe":
+        packages.push("stripe");
+        break;
+      case "paypal":
+        packages.push("paypal");
+        break;
+      case "lemon-squeezy":
+        packages.push("lemon-squeezy");
+        break;
+      case "razorpay":
+        packages.push("razorpay");
+        break;
+      default:
+        break;
+    }
+
+    switch (options.analytics) {
+      case "vercel-analytics":
+        packages.push("vercel-analytics");
+        break;
+      case "google-analytics":
+        packages.push("google-analytics");
+        break;
+      default:
+        break;
+    }
+
+    const usePackages = buildPkgInstallerMap(packages);
+
+    const databaseProvider: DatabaseProvider = options.database && options.database !== "none" ? options.database : "postgresql";
+
+    // always scaffold the project, regardless of whether a database was chosen
+    await createProject({ ...options, databaseProvider, packages: usePackages, packageList: packages });
+
+    // update import alias in any generated files if not using the default
+    if (options.alias !== "@/*") {
+      setImportAlias(options.projectDir, options.alias);
+    }
+
     removeTsNoCheck(options.projectDir);
 
     if (!options.skipInstall) {
