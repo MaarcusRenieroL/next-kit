@@ -48,7 +48,7 @@ export const HeroSection: FC = () => {
                 <span className="h-3 w-3 rounded-full bg-red-500/80" />
                 <span className="h-3 w-3 rounded-full bg-yellow-500/80" />
                 <span className="h-3 w-3 rounded-full bg-green-500/80" />
-                <span className="ml-2 text-xs text-zinc-500">
+                <span className="ml-2 text-xs text-zinc-400">
                   zsh — next-cli
                 </span>
               </div>
@@ -59,8 +59,8 @@ export const HeroSection: FC = () => {
                 {promptLines.map(line => (
                   <p key={line.label} className="text-zinc-300">
                     <span className="text-green-400">✔</span> {line.label}{" "}
-                    <span className="text-zinc-500">…</span>{" "}
-                    <span className="text-primary">{line.value}</span>
+                    <span className="text-zinc-400">…</span>{" "}
+                    <span className="text-fuchsia-300">{line.value}</span>
                   </p>
                 ))}
                 <p className="pt-1 text-zinc-300">

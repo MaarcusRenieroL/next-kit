@@ -29,9 +29,9 @@ export const QuickstartSection: FC = () => {
       id="quickstart"
       className="flex h-full w-full scroll-mt-24 flex-col items-center justify-center overflow-hidden md:px-4 lg:p-10 lg:px-8"
     >
-      <h1 className="mb-6 mt-5 max-w-4xl text-3xl font-bold text-zinc-700 dark:text-zinc-100 md:text-5xl">
+      <h2 className="mb-6 mt-5 max-w-4xl text-3xl font-bold text-zinc-700 dark:text-zinc-100 md:text-5xl">
         Get started in one command
-      </h1>
+      </h2>
       <p className="mb-8 max-w-2xl text-center text-zinc-500 dark:text-zinc-300">
         Run it, answer a few prompts, and start building. No setup, no
         configuration grind.

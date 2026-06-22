@@ -24,9 +24,9 @@ const groups: { title: string; items: string[] }[] = [
 export const IntegrationsSection: FC = () => {
   return (
     <div className="flex h-full w-full flex-col items-center justify-center overflow-hidden md:px-4 lg:p-10 lg:px-8">
-      <h1 className="mb-6 mt-5 max-w-4xl text-3xl font-bold text-zinc-700 dark:text-zinc-100 md:text-5xl">
+      <h2 className="mb-6 mt-5 max-w-4xl text-3xl font-bold text-zinc-700 dark:text-zinc-100 md:text-5xl">
         Everything wired for you
-      </h1>
+      </h2>
       <p className="mb-10 max-w-2xl text-center text-zinc-500 dark:text-zinc-300">
         Choose from a curated set of tools for every layer of your stack. Next
         CLI installs them, configures the env, and connects the pieces.
