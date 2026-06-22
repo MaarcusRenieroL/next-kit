@@ -1,16 +1,15 @@
 import type { Metadata } from "next";
-import { Poppins } from "next/font/google";
+import { Inter } from "next/font/google";
 import "@repo/ui/globals.css";
+import "./landing.css";
 import { Navbar } from "@/components/navigation/navbar";
 import { Providers } from "@/components/providers";
 import { Footer } from "@/components/navigation/footer";
 
-const poppins = Poppins({
+const inter = Inter({
   subsets: ["latin"],
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
   display: "swap",
-  adjustFontFallback: false,
-  variable: "--font-poppins",
+  variable: "--font-inter",
 });
 
 export const metadata: Metadata = {
@@ -21,8 +20,8 @@ export const metadata: Metadata = {
         : "http://localhost:3000")
   ),
   title: {
-    default: "Next CLI — scaffold full-stack Next.js apps in seconds",
-    template: "%s | Next CLI",
+    default: "next-cli — scaffold full-stack Next.js apps in seconds",
+    template: "%s | next-cli",
   },
   description:
     "An interactive CLI that scaffolds production-ready Next.js apps with your choice of auth, ORM, database, API layer, payments, email, and analytics — wired up in seconds.",
@@ -36,16 +35,16 @@ export const metadata: Metadata = {
     "t3",
   ],
   openGraph: {
-    title: "Next CLI",
+    title: "next-cli",
     description:
       "Scaffold production-ready full-stack Next.js apps in seconds.",
     url: "/",
-    siteName: "Next CLI",
+    siteName: "next-cli",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Next CLI",
+    title: "next-cli",
     description:
       "Scaffold production-ready full-stack Next.js apps in seconds.",
   },
@@ -57,11 +56,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${poppins.className} antialiased relative`}>
+    <html lang="en" className="dark">
+      <body
+        className={`${inter.className} relative min-h-screen bg-[#08080a] text-zinc-300 antialiased`}
+      >
         <Providers>
           <Navbar />
-          <main className="px-6 py-4">{children}</main>
+          <main>{children}</main>
           <Footer />
         </Providers>
       </body>

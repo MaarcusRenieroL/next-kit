@@ -1,0 +1,93 @@
+/* ===== next-cli — redesigned landing theme layer ===== */
+
+.nc-grid {
+  background-image: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0.045) 1px,
+      transparent 1px
+    ),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+  background-size: 56px 56px;
+  -webkit-mask-image: radial-gradient(
+    ellipse 75% 55% at 50% 0%,
+    #000 35%,
+    transparent 100%
+  );
+  mask-image: radial-gradient(
+    ellipse 75% 55% at 50% 0%,
+    #000 35%,
+    transparent 100%
+  );
+}
+
+.nc-gradient-text {
+  background: linear-gradient(180deg, #ffffff 0%, #9ca3af 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.nc-glow {
+  background: radial-gradient(
+    circle at center,
+    rgba(16, 185, 129, 0.22),
+    transparent 70%
+  );
+}
+
+@keyframes nc-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.nc-fade-up {
+  animation: nc-fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.nc-delay-1 {
+  animation-delay: 0.08s;
+}
+.nc-delay-2 {
+  animation-delay: 0.16s;
+}
+.nc-delay-3 {
+  animation-delay: 0.24s;
+}
+
+@keyframes nc-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.nc-marquee {
+  animation: nc-marquee 30s linear infinite;
+}
+
+@keyframes nc-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+.nc-caret {
+  animation: nc-blink 1s step-end infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nc-fade-up,
+  .nc-marquee,
+  .nc-caret {
+    animation: none;
+  }
+}

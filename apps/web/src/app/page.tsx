@@ -1,21 +1,19 @@
-import { CommunitySection } from "@/components/pages/home/sections/community-section";
-import { CtaSection } from "@/components/pages/home/sections/cta-section";
-import { FeatureSection } from "@/components/pages/home/sections/feature-section";
-import { HeroSection } from "@/components/pages/home/sections/hero-section";
-import { HowItWorksSection } from "@/components/pages/home/sections/how-it-works-section";
-import { IntegrationsSection } from "@/components/pages/home/sections/integrations-section";
-import { QuickstartSection } from "@/components/pages/home/sections/quickstart-section";
+import { Cta } from "@/components/pages/home/cta";
+import { Features } from "@/components/pages/home/features";
+import { Hero } from "@/components/pages/home/hero";
+import { Install } from "@/components/pages/home/install";
+import { Integrations } from "@/components/pages/home/integrations";
+import { Steps } from "@/components/pages/home/steps";
 
 export default function Home() {
   return (
-    <div className="flex h-full w-full flex-col gap-20 py-10">
-      <HeroSection />
-      <QuickstartSection />
-      <HowItWorksSection />
-      <FeatureSection />
-      <IntegrationsSection />
-      <CommunitySection />
-      <CtaSection />
-    </div>
+    <>
+      <Hero />
+      <Install />
+      <Features />
+      <Steps />
+      <Integrations />
+      <Cta />
+    </>
   );
 }
