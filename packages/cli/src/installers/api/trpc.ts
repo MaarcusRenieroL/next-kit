@@ -8,7 +8,7 @@ export const trpcInstaller: Installer = ({ projectDir, scopedAppName, empty }) =
   // Add trpc dependencies
   addPackageDependency({
     projectDir,
-    dependencies: ["@trpc/client", "@trpc/server", "@trpc/next", "@trpc/react-query", "@tanstack/react-query", "zod"],
+    dependencies: ["@trpc/client", "@trpc/server", "@trpc/next", "@trpc/react-query", "@tanstack/react-query", "superjson", "zod"],
     devMode: false,
   });
 

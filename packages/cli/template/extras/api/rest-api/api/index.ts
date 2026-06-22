@@ -49,19 +49,19 @@ export async function PUT(req: Request) {
       return NextResponse.json({ success: false, message: "ID and name are required" }, { status: 400 });
     }
 
-    const itemIndex = items.findIndex((item) => item.id === id);
+    const existingItem = items.find((item) => item.id === id);
 
-    if (itemIndex === -1) {
+    if (!existingItem) {
       return NextResponse.json({ success: false, message: "Item not found" }, { status: 404 });
     }
 
-    items[itemIndex].name = name;
+    existingItem.name = name;
 
     return NextResponse.json(
       {
         success: true,
         message: "Item updated successfully",
-        data: items[itemIndex],
+        data: existingItem,
       },
       { status: 200 }
     );

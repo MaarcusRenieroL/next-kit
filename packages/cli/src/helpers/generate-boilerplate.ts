@@ -50,3 +50,13 @@ export const selectLibsFile = ({ projectDir, scopedAppName }: SelectBoilerplateP
 
   fs.copySync(libsFileDir, libsFileDest);
 };
+
+// the layout always imports "@/styles/globals.css", so ensure a stylesheet
+// exists for every project. when tailwind is selected its installer overwrites
+// this file with the @tailwind directives version.
+export const selectStylesFile = ({ projectDir, scopedAppName }: SelectBoilerplateProps) => {
+  const stylesSrc = path.join(PKG_ROOT, "template/nextjs/styles/base.css");
+  const stylesDest = path.join(projectDir, scopedAppName === "src" ? "src" : "", "styles/globals.css");
+
+  fs.copySync(stylesSrc, stylesDest);
+};

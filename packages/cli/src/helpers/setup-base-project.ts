@@ -8,7 +8,7 @@ import { PKG_ROOT } from "@/constants/index.js";
 import { CLIOptions } from "@/types/global.js";
 
 // This bootstraps the base Next.js application
-export const scaffoldProject = async ({ projectName, targetDir, empty }: CLIOptions) => {
+export const scaffoldProject = async ({ projectName, targetDir, empty, scopedAppName }: CLIOptions) => {
   try {
     const projectDir = targetDir ? path.join(targetDir, projectName) : projectName;
     const srcDir = path.join(PKG_ROOT, "template/base");
@@ -68,7 +68,7 @@ export const scaffoldProject = async ({ projectName, targetDir, empty }: CLIOpti
 import { fileURLToPath } from "node:url";
 
 const jiti = createJiti(fileURLToPath(import.meta.url));
-jiti("./src/env/index.ts");
+jiti("./${scopedAppName === "src" ? "src/" : ""}env/index.ts");
 
     `;
 
@@ -88,6 +88,16 @@ jiti("./src/env/index.ts");
     fs.renameSync(path.join(projectDir, "_gitignore"), path.join(projectDir, ".gitignore"));
     fs.writeFileSync(path.join(projectDir, "next.config.js"), nextConfigContent);
     fs.writeFileSync(path.join(projectDir, ".env"), "");
+
+    // for the no-src ("app") layout, point the "@/*" alias at the project root.
+    // the tsconfig has JSONC comments, so use a string replace rather than JSON.parse.
+    if (scopedAppName !== "src") {
+      const tsconfigPath = path.join(projectDir, "tsconfig.json");
+      if (fs.existsSync(tsconfigPath)) {
+        const tsconfigRaw = fs.readFileSync(tsconfigPath, "utf8");
+        fs.writeFileSync(tsconfigPath, tsconfigRaw.replace(/"@\/\*":\s*\[\s*"\.\/src\/\*"\s*\]/, '"@/*": ["./*"]'));
+      }
+    }
 
     const scaffoldedName = projectName === "." ? "Next Cli App" : chalk.cyan.bold(projectName);
 
