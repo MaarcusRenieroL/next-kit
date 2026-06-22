@@ -93,12 +93,13 @@ bun add -g next-cli
 
 ### Pending Tasks
 
-- [ ] Setup Next Auth
-- [ ] Setup Drizzle
-- [ ] Setup Stripe
-- [ ] Setup Lemon Squeezy
-- [ ] Setup Paypal
-- [ ] Setup Razorpay
-- [ ] Setup Graphql
+- [x] Setup Next Auth
+- [x] Setup Drizzle
+- [x] Setup Stripe
+- [x] Setup Lemon Squeezy
+- [x] Setup Paypal
+- [x] Setup Razorpay
+- [x] Setup Graphql
+- [x] Setup Sendgrid / Mailgun / Postmark email
 - [ ] Setup Docs Page
 - [ ] Setup FAQ
