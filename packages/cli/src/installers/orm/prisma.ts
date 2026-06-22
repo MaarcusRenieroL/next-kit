@@ -43,7 +43,31 @@ export const prismaInstaller: Installer = ({ targetDir, projectName, scopedAppNa
   if (!empty) {
     const extrasDir = path.join(PKG_ROOT, "template/extras/orm");
     const schemaSrc = path.join(extrasDir, "prisma/schema", `base.prisma`);
-    const schemaText = fs.readFileSync(schemaSrc, "utf-8");
+
+    const providerMap: Record<string, string> = {
+      postgresql: "postgresql",
+      mysql: "mysql",
+      sqlite: "sqlite",
+      mongodb: "mongodb",
+    };
+    const provider = providerMap[databaseProvider ?? "postgresql"] ?? "postgresql";
+
+    let schemaText = fs.readFileSync(schemaSrc, "utf-8").replace('provider = "postgresql"', `provider = "${provider}"`);
+
+    // mongodb can't use autoincrement integer ids
+    if (provider === "mongodb") {
+      schemaText = schemaText.replace(
+        /model Post \{[\s\S]*?\n\}/,
+        `model Post {
+    id        String   @id @default(auto()) @map("_id") @db.ObjectId
+    name      String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([name])
+}`
+      );
+    }
 
     const schemaDest = path.join(projectDir, "prisma/schema.prisma");
     fs.mkdirSync(path.dirname(schemaDest), { recursive: true });

@@ -1,8 +1,8 @@
 // @ts-nocheck
 import { Hono } from "hono";
-import { Bindings } from "../types.js";
+import { Bindings } from "../types";
 
-const users = new Hono<{ Bindings: Bindings }>().get("/", async (c, next) => {
+const users = new Hono<{ Bindings: Bindings }>().get("/", async (c) => {
   // Usage example
   return c.json({ users: [] });
 });
