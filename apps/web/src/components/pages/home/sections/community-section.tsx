@@ -2,7 +2,9 @@
 
 import { FC } from "react";
 import { CommunityCard } from "../community-card";
-import { DiscordLogo, GithubLogo, XLogo } from "@phosphor-icons/react";
+import { Bug, ChatCircle, GithubLogo } from "@phosphor-icons/react";
+
+const REPO = "https://github.com/MaarcusRenieroL/next-cli";
 
 export const CommunitySection: FC = () => {
   return (
@@ -12,22 +14,22 @@ export const CommunitySection: FC = () => {
       </h1>
       <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-5">
         <CommunityCard
-          Logo={DiscordLogo}
-          title="Discord"
-          description="Join our Discord server to chat with other developers and get help with your projects."
-          href=""
-        />
-        <CommunityCard
           Logo={GithubLogo}
-          title="Github"
-          description="Contribute to the project by submitting issues and pull requests on our GitHub repository."
-          href="https://github.com/MaarcusRenieroL/next-cli"
+          title="GitHub"
+          description="Star the project, browse the source, and contribute pull requests on our GitHub repository."
+          href={REPO}
         />
         <CommunityCard
-          Logo={XLogo}
-          title="X"
-          description="Follow us on X for project updates and behind-the-scenes looks at what we're building next."
-          href=""
+          Logo={Bug}
+          title="Issues"
+          description="Hit a bug or have a feature request? Open an issue and we'll take a look."
+          href={`${REPO}/issues`}
+        />
+        <CommunityCard
+          Logo={ChatCircle}
+          title="Discussions"
+          description="Ask questions, share ideas, and talk with other developers using Next CLI."
+          href={`${REPO}/discussions`}
         />
       </div>
     </div>
