@@ -19,7 +19,7 @@ const faqs: { q: string; a: React.ReactNode }[] = [
     q: "How do I create a project?",
     a: (
       <p>
-        Run <code>npx nextkit@latest</code> (or the equivalent for your package
+        Run <code>npx next-kit@latest</code> (or the equivalent for your package
         manager), answer the prompts, and the CLI generates and installs
         everything for you. See <a href="/quickstart">Quickstart</a>.
       </p>

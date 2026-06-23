@@ -1,5 +1,5 @@
 {
-  "name": "nextkit",
+  "name": "next-kit",
   "version": "1.0.0",
   "description": "Nextkit — an interactive CLI built with Node.js and TypeScript to scaffold full-stack Next.js projects in seconds",
   "homepage": "https://github.com/MaarcusRenieroL/next-cli#readme",

@@ -70,7 +70,7 @@ export const Hero: FC = () => {
           </div>
 
           <p className="mt-6 font-mono text-xs text-zinc-500">
-            <span className="text-indigo-400">$</span> npx nextkit@latest
+            <span className="text-indigo-400">$</span> npx next-kit@latest
           </p>
         </div>
 
@@ -81,12 +81,12 @@ export const Hero: FC = () => {
               <span className="h-3 w-3 rounded-full bg-yellow-500/70" />
               <span className="h-3 w-3 rounded-full bg-green-500/70" />
               <span className="ml-2 font-mono text-xs text-zinc-500">
-                zsh — nextkit
+                zsh — next-kit
               </span>
             </div>
             <div className="space-y-1.5 p-5 font-mono text-sm">
               <p className="text-zinc-400">
-                <span className="text-indigo-400">$</span> npx nextkit@latest
+                <span className="text-indigo-400">$</span> npx next-kit@latest
               </p>
               {steps.map(s => {
                 const value = s.options[tick % s.options.length];

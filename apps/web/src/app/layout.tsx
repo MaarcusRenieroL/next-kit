@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     "starter",
     "typescript",
     "t3",
-    "nextkit",
+    "next-kit",
   ],
   openGraph: {
     title: "Nextkit",

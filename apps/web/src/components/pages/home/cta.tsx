@@ -15,7 +15,7 @@ export const Cta: FC = () => {
           Next.js app in seconds with Nextkit.
         </p>
         <div className="relative mx-auto mt-8 w-fit rounded-lg border border-white/10 bg-zinc-950/80 px-5 py-3 font-mono text-sm text-zinc-100">
-          <span className="text-indigo-400">$</span> npx nextkit@latest
+          <span className="text-indigo-400">$</span> npx next-kit@latest
         </div>
         <div className="relative mt-8 flex flex-col justify-center gap-3 sm:flex-row">
           <Link

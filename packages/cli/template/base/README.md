@@ -1,6 +1,6 @@
 # Create Nextkit App
 
-This is a [Nextkit](https://github.com/MaarcusRenieroL/next-cli) project bootstrapped with `nextkit`.
+This is a [Nextkit](https://github.com/MaarcusRenieroL/next-cli) project bootstrapped with `next-kit`.
 
 ## What's next? How do I make an app with this?
 

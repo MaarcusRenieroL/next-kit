@@ -31,7 +31,7 @@ export default function IntroductionPage() {
         <p>Scaffold a new project without installing anything globally:</p>
       </Prose>
 
-      <CommandTabs pkg="nextkit@latest" />
+      <CommandTabs pkg="next-kit@latest" />
 
       <Prose>
         <Callout type="note" title="Requirements">

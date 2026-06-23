@@ -17,7 +17,7 @@ export default function CliOptionsPage() {
         <p>
           The name of your project and the folder it&apos;s created in. Defaults
           to <code>cli-app</code>. You can also pass it as an argument:{" "}
-          <code>npx nextkit@latest my-app</code>.
+          <code>npx next-kit@latest my-app</code>.
         </p>
 
         <h2>Location</h2>

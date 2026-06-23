@@ -4,7 +4,7 @@ import { PackageManager } from "@/types/global.js";
 import figlet from "figlet";
 
 export function printIntroMessage() {
-  const headerText = figlet.textSync("nextkit", {
+  const headerText = figlet.textSync("next-kit", {
     font: "ANSI Shadow",
     horizontalLayout: "default",
     verticalLayout: "default",

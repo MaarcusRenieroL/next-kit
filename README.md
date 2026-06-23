@@ -82,13 +82,13 @@
 Install the CLI globally using your preferred package manager:
 
 ```bash
-npm install -g nextkit
+npm install -g next-kit
 # or
-pnpm add -g nextkit
+pnpm add -g next-kit
 # or
-yarn global add nextkit
+yarn global add next-kit
 # or
-bun add -g nextkit
+bun add -g next-kit
 ```
 
 ### Pending Tasks

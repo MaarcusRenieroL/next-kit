@@ -1,12 +1,12 @@
 {
-  "name": "nextkit-monorepo",
+  "name": "next-kit-monorepo",
   "private": true,
   "scripts": {
     "build": "turbo build",
     "dev": "turbo dev",
-    "start:cli": "turbo --filter=nextkit start",
-    "build:cli": "turbo --filter=nextkit build",
-    "dev:cli": "turbo --filter=nextkit dev",
+    "start:cli": "turbo --filter=next-kit start",
+    "build:cli": "turbo --filter=next-kit build",
+    "dev:cli": "turbo --filter=next-kit dev",
     "dev:web": "turbo --filter=web dev",
     "dev:docs": "turbo --filter=docs dev",
     "ui:add": "pnpm --filter @repo/ui ui:add",

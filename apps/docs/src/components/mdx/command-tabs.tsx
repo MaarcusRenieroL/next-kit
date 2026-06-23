@@ -4,7 +4,7 @@ import { FC, useState } from "react";
 import { CheckIcon, CopyIcon } from "@radix-ui/react-icons";
 
 type CommandTabsProps = {
-  /** The package/command without the runner prefix, e.g. "nextkit@latest". */
+  /** The package/command without the runner prefix, e.g. "next-kit@latest". */
   pkg: string;
 };
 
