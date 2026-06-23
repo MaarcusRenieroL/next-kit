@@ -2,10 +2,12 @@ import Link from "next/link";
 import { FC } from "react";
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
 
+const DOCS_URL = process.env.NEXT_PUBLIC_DOCS_URL ?? "http://localhost:3333";
+
 const links = [
-  { href: "/docs", label: "Docs" },
-  { href: "/packages", label: "Packages" },
-  { href: "/faq", label: "FAQ" },
+  { href: DOCS_URL, label: "Docs" },
+  { href: `${DOCS_URL}/cli-options`, label: "Options" },
+  { href: `${DOCS_URL}/faq`, label: "FAQ" },
 ];
 
 export const Navbar: FC = () => {
@@ -13,11 +15,11 @@ export const Navbar: FC = () => {
     <header className="sticky top-0 z-50 w-full border-b border-white/5 bg-[#08080a]/70 backdrop-blur-xl">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
         <Link href="/" className="flex items-center gap-2">
-          <span className="grid h-7 w-7 place-items-center rounded-md bg-emerald-500/15 font-mono text-sm font-bold text-emerald-400 ring-1 ring-emerald-500/30">
+          <span className="grid h-7 w-7 place-items-center rounded-md bg-indigo-500/15 font-mono text-sm font-bold text-indigo-300 ring-1 ring-indigo-500/30">
             {">_"}
           </span>
           <span className="font-semibold tracking-tight text-white">
-            next-cli
+            Nextkit
           </span>
         </Link>
 
@@ -45,7 +47,7 @@ export const Navbar: FC = () => {
           </Link>
           <Link
             href="/#install"
-            className="rounded-md bg-emerald-500 px-4 py-2 text-sm font-medium text-emerald-950 transition-colors hover:bg-emerald-400"
+            className="rounded-md bg-indigo-500 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-indigo-400"
           >
             Get started
           </Link>

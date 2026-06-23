@@ -1,0 +1,162 @@
+/* ===== Nextkit docs — theme layer (matches the landing page) ===== */
+
+:root {
+  --nk-bg: #07070b;
+  --nk-accent: #6366f1; /* indigo-500 */
+  --nk-accent-2: #8b5cf6; /* violet-500 */
+  --nk-accent-3: #22d3ee; /* cyan-400 */
+}
+
+.nk-gradient-text {
+  background: linear-gradient(180deg, #ffffff 0%, #a1a1aa 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.nk-accent-text {
+  background: linear-gradient(
+    90deg,
+    var(--nk-accent-3) 0%,
+    var(--nk-accent) 45%,
+    var(--nk-accent-2) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.nk-card {
+  position: relative;
+  border-radius: 0.75rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition:
+    border-color 0.25s ease,
+    background 0.25s ease;
+}
+.nk-card:hover {
+  border-color: rgba(129, 140, 248, 0.45);
+  background: rgba(255, 255, 255, 0.035);
+}
+
+/* Custom scrollbar for the sidebar */
+.nk-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.12) transparent;
+}
+.nk-scroll::-webkit-scrollbar {
+  width: 8px;
+}
+.nk-scroll::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.12);
+  border-radius: 9999px;
+}
+
+/* ===== Prose: long-form documentation typography ===== */
+.nk-prose {
+  color: #d4d4d8; /* zinc-300 */
+  font-size: 0.95rem;
+  line-height: 1.75;
+}
+
+.nk-prose h2 {
+  margin-top: 2.75rem;
+  margin-bottom: 1rem;
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: #fafafa;
+  scroll-margin-top: 6rem;
+}
+
+.nk-prose h3 {
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #fafafa;
+  scroll-margin-top: 6rem;
+}
+
+.nk-prose p {
+  margin-bottom: 1.1rem;
+}
+
+.nk-prose a {
+  color: #a5b4fc; /* indigo-300 */
+  text-decoration: none;
+  border-bottom: 1px solid rgba(165, 180, 252, 0.3);
+  transition: border-color 0.2s ease;
+}
+.nk-prose a:hover {
+  border-color: rgba(165, 180, 252, 0.8);
+}
+
+.nk-prose ul,
+.nk-prose ol {
+  margin: 0 0 1.25rem 0;
+  padding-left: 1.25rem;
+}
+.nk-prose ul {
+  list-style: disc;
+}
+.nk-prose ol {
+  list-style: decimal;
+}
+.nk-prose li {
+  margin-bottom: 0.4rem;
+  padding-left: 0.25rem;
+}
+.nk-prose li::marker {
+  color: #818cf8; /* indigo-400 */
+}
+
+.nk-prose strong {
+  color: #fafafa;
+  font-weight: 600;
+}
+
+/* Inline code */
+.nk-prose :not(pre) > code {
+  font-family:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.82em;
+  color: #c7d2fe; /* indigo-200 */
+  background: rgba(129, 140, 248, 0.12);
+  border: 1px solid rgba(129, 140, 248, 0.18);
+  border-radius: 0.35rem;
+  padding: 0.12rem 0.38rem;
+}
+
+.nk-prose hr {
+  margin: 2.5rem 0;
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.nk-prose table {
+  width: 100%;
+  margin-bottom: 1.5rem;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+.nk-prose th,
+.nk-prose td {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0.6rem 0.85rem;
+  text-align: left;
+}
+.nk-prose th {
+  background: rgba(255, 255, 255, 0.03);
+  color: #fafafa;
+  font-weight: 600;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    scroll-behavior: auto !important;
+  }
+}

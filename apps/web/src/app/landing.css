@@ -1,42 +1,101 @@
-/* ===== next-cli — redesigned landing theme layer ===== */
+/* ===== Nextkit — landing theme layer ===== */
 
-.nc-grid {
+:root {
+  --nk-bg: #07070b;
+  --nk-accent: #6366f1; /* indigo-500 */
+  --nk-accent-2: #8b5cf6; /* violet-500 */
+  --nk-accent-3: #22d3ee; /* cyan-400 */
+}
+
+/* Subtle dotted/grid backdrop for the hero */
+.nk-grid {
   background-image: linear-gradient(
       to right,
-      rgba(255, 255, 255, 0.045) 1px,
+      rgba(255, 255, 255, 0.04) 1px,
       transparent 1px
     ),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
-  background-size: 56px 56px;
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
   -webkit-mask-image: radial-gradient(
-    ellipse 75% 55% at 50% 0%,
-    #000 35%,
+    ellipse 70% 50% at 50% 0%,
+    #000 30%,
     transparent 100%
   );
   mask-image: radial-gradient(
-    ellipse 75% 55% at 50% 0%,
-    #000 35%,
+    ellipse 70% 50% at 50% 0%,
+    #000 30%,
     transparent 100%
   );
 }
 
-.nc-gradient-text {
-  background: linear-gradient(180deg, #ffffff 0%, #9ca3af 100%);
+/* Aurora glow behind the hero */
+.nk-aurora {
+  background: radial-gradient(
+      40% 60% at 30% 20%,
+      rgba(99, 102, 241, 0.28),
+      transparent 70%
+    ),
+    radial-gradient(
+      40% 55% at 75% 10%,
+      rgba(139, 92, 246, 0.22),
+      transparent 70%
+    ),
+    radial-gradient(
+      35% 45% at 55% 40%,
+      rgba(34, 211, 238, 0.16),
+      transparent 70%
+    );
+  filter: blur(8px);
+}
+
+.nk-glow {
+  background: radial-gradient(
+    circle at center,
+    rgba(99, 102, 241, 0.22),
+    transparent 70%
+  );
+}
+
+/* Text gradients */
+.nk-gradient-text {
+  background: linear-gradient(180deg, #ffffff 0%, #a1a1aa 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
 }
 
-.nc-glow {
-  background: radial-gradient(
-    circle at center,
-    rgba(16, 185, 129, 0.22),
-    transparent 70%
+.nk-accent-text {
+  background: linear-gradient(
+    90deg,
+    var(--nk-accent-3) 0%,
+    var(--nk-accent) 45%,
+    var(--nk-accent-2) 100%
   );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
 }
 
-@keyframes nc-fade-up {
+/* Card with gradient hairline border */
+.nk-card {
+  position: relative;
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition:
+    border-color 0.25s ease,
+    background 0.25s ease,
+    transform 0.25s ease;
+}
+.nk-card:hover {
+  border-color: rgba(129, 140, 248, 0.45);
+  background: rgba(255, 255, 255, 0.035);
+}
+
+/* Animations */
+@keyframes nk-fade-up {
   from {
     opacity: 0;
     transform: translateY(18px);
@@ -46,20 +105,23 @@
     transform: translateY(0);
   }
 }
-.nc-fade-up {
-  animation: nc-fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+.nk-fade-up {
+  animation: nk-fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
-.nc-delay-1 {
+.nk-delay-1 {
   animation-delay: 0.08s;
 }
-.nc-delay-2 {
+.nk-delay-2 {
   animation-delay: 0.16s;
 }
-.nc-delay-3 {
+.nk-delay-3 {
   animation-delay: 0.24s;
 }
+.nk-delay-4 {
+  animation-delay: 0.32s;
+}
 
-@keyframes nc-marquee {
+@keyframes nk-marquee {
   from {
     transform: translateX(0);
   }
@@ -67,11 +129,11 @@
     transform: translateX(-50%);
   }
 }
-.nc-marquee {
-  animation: nc-marquee 30s linear infinite;
+.nk-marquee {
+  animation: nk-marquee 32s linear infinite;
 }
 
-@keyframes nc-blink {
+@keyframes nk-blink {
   0%,
   100% {
     opacity: 1;
@@ -80,14 +142,28 @@
     opacity: 0;
   }
 }
-.nc-caret {
-  animation: nc-blink 1s step-end infinite;
+.nk-caret {
+  animation: nk-blink 1s step-end infinite;
+}
+
+@keyframes nk-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+.nk-float {
+  animation: nk-float 6s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .nc-fade-up,
-  .nc-marquee,
-  .nc-caret {
+  .nk-fade-up,
+  .nk-marquee,
+  .nk-caret,
+  .nk-float {
     animation: none;
   }
 }

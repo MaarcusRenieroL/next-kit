@@ -56,7 +56,7 @@ export const scaffoldProject = async ({ projectName, targetDir, empty, scopedApp
         }
 
         if (overwriteDir === "clear") {
-          spinner.info(`Emptying ${chalk.cyan.bold(projectName)} and creating next-cli app..\n`);
+          spinner.info(`Emptying ${chalk.cyan.bold(projectName)} and creating Nextkit app..\n`);
           fs.emptyDirSync(projectDir);
         }
       }
@@ -99,7 +99,7 @@ jiti("./${scopedAppName === "src" ? "src/" : ""}env/index.ts");
       }
     }
 
-    const scaffoldedName = projectName === "." ? "Next Cli App" : chalk.cyan.bold(projectName);
+    const scaffoldedName = projectName === "." ? "Nextkit App" : chalk.cyan.bold(projectName);
 
     spinner.succeed(`${scaffoldedName} ${chalk.green("scaffolded successfully!")}\n`);
   } catch (error) {

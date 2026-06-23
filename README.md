@@ -1,6 +1,6 @@
-# 🚀 Next CLI
+# 🚀 Nextkit
 
-**Next CLI** is a powerful project scaffolding tool built on top of the **Next.js** framework. It helps developers bootstrap full-featured web applications in seconds — saving hours of setup and configuration.
+**Nextkit** is a powerful project scaffolding tool built on top of the **Next.js** framework. It helps developers bootstrap full-featured web applications in seconds — saving hours of setup and configuration.
 
 ## ✨ Features
 
@@ -82,13 +82,13 @@
 Install the CLI globally using your preferred package manager:
 
 ```bash
-npm install -g next-cli
+npm install -g nextkit
 # or
-pnpm add -g next-cli
+pnpm add -g nextkit
 # or
-yarn global add next-cli
+yarn global add nextkit
 # or
-bun add -g next-cli
+bun add -g nextkit
 ```
 
 ### Pending Tasks
@@ -101,5 +101,5 @@ bun add -g next-cli
 - [x] Setup Razorpay
 - [x] Setup Graphql
 - [x] Setup Sendgrid / Mailgun / Postmark email
-- [ ] Setup Docs Page
-- [ ] Setup FAQ
+- [x] Setup Docs Page
+- [x] Setup FAQ

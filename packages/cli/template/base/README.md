@@ -1,6 +1,6 @@
-# Create Next Cli App
+# Create Nextkit App
 
-This is a [Next-Cli ](https://github.com/MaarcusRenieroL/next-cli) project bootstrapped with `next-cli`.
+This is a [Nextkit](https://github.com/MaarcusRenieroL/next-cli) project bootstrapped with `nextkit`.
 
 ## What's next? How do I make an app with this?
 
@@ -21,6 +21,6 @@ If you are not familiar with the different technologies used in this project, pl
 
 ## Learn More
 
-To learn more about the [Next Cli](https://github.com/MaarcusRenieroL/next-cli), take a look at the following resources:
+To learn more about [Nextkit](https://github.com/MaarcusRenieroL/next-cli), take a look at the following resources:
 
 ## How do I deploy this?

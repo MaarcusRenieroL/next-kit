@@ -4,7 +4,7 @@ import { PackageManager } from "@/types/global.js";
 import figlet from "figlet";
 
 export function printIntroMessage() {
-  const headerText = figlet.textSync("next-cli", {
+  const headerText = figlet.textSync("nextkit", {
     font: "ANSI Shadow",
     horizontalLayout: "default",
     verticalLayout: "default",
@@ -15,7 +15,7 @@ export function printIntroMessage() {
   const message = `
 ${chalk.yellow(headerText)}
 
-${chalk.yellow.bold("🚀 Welcome to next-cli v0.1.0 🚀")}
+${chalk.yellow.bold("🚀 Welcome to Nextkit v0.1.0 🚀")}
 Set up Next.js apps in a flash ${chalk.cyan("⚡")}
 
 ${chalk.magenta("💡 Features:")}
@@ -35,7 +35,7 @@ ${chalk.blue("Developed by: Maarcus Reniero L, Akash Layal").trim()}
 }
 
 export function exit() {
-  console.log("Thank you for using Next-CLI");
+  console.log("Thank you for using Nextkit");
   process.exit(0);
 }
 

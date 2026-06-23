@@ -1,7 +1,7 @@
 {
-  "name": "next-cli",
+  "name": "nextkit",
   "version": "1.0.0",
-  "description": "A CLI built using Node JS and TypeScript to build Next.js projects easily",
+  "description": "Nextkit — an interactive CLI built with Node.js and TypeScript to scaffold full-stack Next.js projects in seconds",
   "homepage": "https://github.com/MaarcusRenieroL/next-cli#readme",
   "license": "ISC",
   "author": "",

@@ -39,16 +39,17 @@ export const Integrations: FC = () => {
   return (
     <section className="py-20">
       <div className="mx-auto max-w-2xl px-6 text-center">
-        <h2 className="nc-gradient-text text-3xl font-bold tracking-tight sm:text-4xl">
-          Plays nicely with your stack
+        <span className="text-sm font-medium text-indigo-400">Your stack</span>
+        <h2 className="nk-gradient-text mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
+          Pick from a curated menu
         </h2>
         <p className="mt-4 text-zinc-400">
-          A curated menu for every layer — installed and configured for you.
+          Every layer of the stack — installed and configured for you.
         </p>
       </div>
 
       <div className="relative mt-12 overflow-hidden [mask-image:linear-gradient(to_right,transparent,#000_12%,#000_88%,transparent)]">
-        <div className="nc-marquee flex w-max gap-3">
+        <div className="nk-marquee flex w-max gap-3">
           {[...marquee, ...marquee].map((m, i) => (
             <span
               key={i}
@@ -62,13 +63,8 @@ export const Integrations: FC = () => {
 
       <div className="mx-auto mt-12 grid max-w-7xl grid-cols-1 gap-4 px-6 sm:grid-cols-2 lg:grid-cols-4">
         {groups.map(g => (
-          <div
-            key={g.title}
-            className="rounded-2xl border border-white/10 bg-white/[0.02] p-5"
-          >
-            <h3 className="text-sm font-semibold text-emerald-400">
-              {g.title}
-            </h3>
+          <div key={g.title} className="nk-card p-5">
+            <h3 className="text-sm font-semibold text-indigo-300">{g.title}</h3>
             <div className="mt-3 flex flex-wrap gap-2">
               {g.items.map(it => (
                 <span

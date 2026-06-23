@@ -2,27 +2,34 @@ import Link from "next/link";
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
 
 const REPO = "https://github.com/MaarcusRenieroL/next-cli";
+const DOCS_URL = process.env.NEXT_PUBLIC_DOCS_URL ?? "http://localhost:3333";
 
 export const Footer = () => {
   return (
     <footer className="border-t border-white/5">
       <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-6 py-10 sm:flex-row">
         <div className="flex items-center gap-2">
-          <span className="grid h-6 w-6 place-items-center rounded bg-emerald-500/15 font-mono text-xs font-bold text-emerald-400 ring-1 ring-emerald-500/30">
+          <span className="grid h-6 w-6 place-items-center rounded bg-indigo-500/15 font-mono text-xs font-bold text-indigo-300 ring-1 ring-indigo-500/30">
             {">_"}
           </span>
           <span className="text-sm text-zinc-500">
-            next-cli — scaffold full-stack Next.js apps in seconds.
+            Nextkit — scaffold full-stack Next.js apps in seconds.
           </span>
         </div>
         <div className="flex items-center gap-6 text-sm text-zinc-400">
-          <Link href="/docs" className="transition-colors hover:text-white">
+          <Link href={DOCS_URL} className="transition-colors hover:text-white">
             Docs
           </Link>
-          <Link href="/packages" className="transition-colors hover:text-white">
-            Packages
+          <Link
+            href={`${DOCS_URL}/cli-options`}
+            className="transition-colors hover:text-white"
+          >
+            Options
           </Link>
-          <Link href="/faq" className="transition-colors hover:text-white">
+          <Link
+            href={`${DOCS_URL}/faq`}
+            className="transition-colors hover:text-white"
+          >
             FAQ
           </Link>
           <Link
@@ -46,15 +53,6 @@ export const Footer = () => {
         >
           Maarcus Reniero L
         </Link>{" "}
-        and{" "}
-        <Link
-          href="https://github.com/anonymous-sherlock"
-          target="_blank"
-          rel="noreferrer"
-          className="text-zinc-400 transition-colors hover:text-white"
-        >
-          Akash Layal
-        </Link>
         . MIT licensed.
       </div>
     </footer>

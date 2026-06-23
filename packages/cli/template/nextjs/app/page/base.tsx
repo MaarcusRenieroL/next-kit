@@ -19,7 +19,7 @@ export default function Home() {
         Welcome to your <span style={{ color: "#0070f3" }}>Next.js</span> app
       </h1>
       <p style={{ maxWidth: "32rem", color: "#666" }}>
-        Generated with next-cli. Edit <code>app/page.tsx</code> to get started.
+        Generated with Nextkit. Edit <code>app/page.tsx</code> to get started.
       </p>
       <Link href="https://nextjs.org/docs" target="_blank" style={{ color: "#0070f3" }}>
         Read the Next.js docs →

@@ -20,11 +20,11 @@ export const metadata: Metadata = {
         : "http://localhost:3000")
   ),
   title: {
-    default: "next-cli — scaffold full-stack Next.js apps in seconds",
-    template: "%s | next-cli",
+    default: "Nextkit — scaffold full-stack Next.js apps in seconds",
+    template: "%s | Nextkit",
   },
   description:
-    "An interactive CLI that scaffolds production-ready Next.js apps with your choice of auth, ORM, database, API layer, payments, email, and analytics — wired up in seconds.",
+    "Nextkit is an interactive CLI that scaffolds production-ready Next.js apps with your choice of auth, ORM, database, API layer, payments, email, and analytics — wired up in seconds.",
   keywords: [
     "next.js",
     "cli",
@@ -33,18 +33,19 @@ export const metadata: Metadata = {
     "starter",
     "typescript",
     "t3",
+    "nextkit",
   ],
   openGraph: {
-    title: "next-cli",
+    title: "Nextkit",
     description:
       "Scaffold production-ready full-stack Next.js apps in seconds.",
     url: "/",
-    siteName: "next-cli",
+    siteName: "Nextkit",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "next-cli",
+    title: "Nextkit",
     description:
       "Scaffold production-ready full-stack Next.js apps in seconds.",
   },
