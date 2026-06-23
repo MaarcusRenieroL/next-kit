@@ -2,7 +2,8 @@ import Link from "next/link";
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
 
 const REPO = "https://github.com/MaarcusRenieroL/next-cli";
-const DOCS_URL = process.env.NEXT_PUBLIC_DOCS_URL ?? "http://localhost:3333";
+const DOCS_URL =
+  process.env.NEXT_PUBLIC_DOCS_URL ?? "https://docs.next-kit.maarcus.dev";
 
 export const Footer = () => {
   return (

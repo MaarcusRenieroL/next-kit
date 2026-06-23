@@ -2,7 +2,8 @@ import Link from "next/link";
 import { FC } from "react";
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
 
-const DOCS_URL = process.env.NEXT_PUBLIC_DOCS_URL ?? "http://localhost:3333";
+const DOCS_URL =
+  process.env.NEXT_PUBLIC_DOCS_URL ?? "https://docs.next-kit.maarcus.dev";
 
 const links = [
   { href: DOCS_URL, label: "Docs" },

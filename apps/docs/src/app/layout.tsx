@@ -12,7 +12,7 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   metadataBase: new URL(
-    process.env.NEXT_PUBLIC_DOCS_URL ?? "http://localhost:3333"
+    process.env.NEXT_PUBLIC_DOCS_URL ?? "https://docs.next-kit.maarcus.dev"
   ),
   title: {
     default: "Nextkit Docs — scaffold full-stack Next.js apps",

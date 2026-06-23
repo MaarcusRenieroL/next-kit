@@ -12,7 +12,8 @@ import {
 import { nav } from "@/lib/nav";
 
 const REPO = "https://github.com/MaarcusRenieroL/next-cli";
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://next-kit.maarcus.dev";
 
 const SidebarNav: FC<{ onNavigate?: () => void }> = ({ onNavigate }) => {
   const pathname = usePathname();
