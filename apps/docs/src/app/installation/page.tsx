@@ -39,7 +39,7 @@ export default function InstallationPage() {
         </p>
       </Prose>
 
-      <CommandTabs pkg="next-kit@latest" />
+      <CommandTabs pkg="@mxrcxs17/next-kit@latest" />
 
       <Prose>
         <p>
@@ -48,7 +48,7 @@ export default function InstallationPage() {
         </p>
       </Prose>
 
-      <CodeBlock shell code="npx next-kit@latest my-app" />
+      <CodeBlock shell code="npx @mxrcxs17/next-kit@latest my-app" />
 
       <Prose>
         <Callout type="tip" title="Which runner?">

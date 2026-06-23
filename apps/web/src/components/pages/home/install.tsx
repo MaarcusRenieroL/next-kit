@@ -4,10 +4,10 @@ import { FC, useState } from "react";
 import { CheckIcon, CopyIcon } from "@radix-ui/react-icons";
 
 const commands = {
-  npm: "npx next-kit@latest",
-  pnpm: "pnpm dlx next-kit@latest",
-  yarn: "yarn dlx next-kit@latest",
-  bun: "bunx next-kit@latest",
+  npm: "npx @mxrcxs17/next-kit@latest",
+  pnpm: "pnpm dlx @mxrcxs17/next-kit@latest",
+  yarn: "yarn dlx @mxrcxs17/next-kit@latest",
+  bun: "bunx @mxrcxs17/next-kit@latest",
 } as const;
 
 type PackageManager = keyof typeof commands;

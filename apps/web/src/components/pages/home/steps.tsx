@@ -4,7 +4,7 @@ const steps: { n: string; title: string; body: string }[] = [
   {
     n: "1",
     title: "Run one command",
-    body: "npx next-kit@latest — no global install, no setup.",
+    body: "npx @mxrcxs17/next-kit@latest — no global install, no setup.",
   },
   {
     n: "2",

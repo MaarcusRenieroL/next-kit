@@ -19,7 +19,7 @@ export default function QuickstartPage() {
           <p className="mb-2">
             Start the interactive generator with your package manager:
           </p>
-          <CommandTabs pkg="next-kit@latest" />
+          <CommandTabs pkg="@mxrcxs17/next-kit@latest" />
         </Step>
 
         <Step title="Answer the prompts">
