@@ -1,5 +1,6 @@
 import { removeTsNoCheckCommentFromContent } from "@/helpers/remove-ts-no-check.js";
 import { Installer } from "@/types/global.js";
+import { addPackageDependency } from "@/utils/add-package-dependency.js";
 import fs from "fs-extra";
 import path from "path";
 import prettier from "prettier";
@@ -10,6 +11,14 @@ export const googleAnalyticsInstaller: Installer = async ({ targetDir, projectNa
   if (!projectDir) {
     throw new Error("Project directory is required");
   }
+
+  // GoogleAnalytics is provided by @next/third-parties, which isn't part of the
+  // base template — add it so the generated project actually compiles.
+  addPackageDependency({
+    projectDir,
+    dependencies: ["@next/third-parties"],
+    devMode: false,
+  });
 
   if (!empty) {
     // Define the layout file path (assuming a common Next.js structure)

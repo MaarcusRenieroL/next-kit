@@ -46,7 +46,7 @@ export const createProject = async ({ packages, databaseProvider, ...options }: 
     projectDir: projectDir,
   });
   // Install the selected packages
-  installPackages({
+  await installPackages({
     ...options,
     projectDir,
     packageManager: options.packageManager || pkgManager,

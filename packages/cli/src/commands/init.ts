@@ -7,10 +7,9 @@ import { exit, printSuccessMessage } from "../utils/message.js";
 import { setImportAlias } from "@/helpers/set-import-alias.js";
 import path from "path";
 import { removeTsNoCheck } from "@/helpers/remove-ts-no-check.js";
-import fs from "fs-extra";
 import ora from "ora";
+import { existsSync } from "fs";
 import { execSync } from "child_process";
-import { PackageJson } from "type-fest";
 import { getInstallCommand } from "@/utils/index.js";
 import { logger } from "@/utils/logger.js";
 
@@ -284,41 +283,38 @@ export async function init(options: CLIOptions) {
     removeTsNoCheck(options.projectDir);
 
     if (!options.skipInstall) {
-      const packageJsonPath = path.join(options.projectDir, "package.json");
-      const packageJsonContents = fs.readJSONSync(packageJsonPath) as PackageJson;
+      // The generated package.json already lists every selected dependency, so a
+      // single install resolves the whole tree at once instead of running the
+      // package manager once per package (which is slow and prone to spurious
+      // peer-dependency failures).
+      const command = getInstallCommand(options.packageManager);
+      const spinner = ora(`Installing dependencies (${command})...`).start();
 
-      const dependencies = packageJsonContents.dependencies || {};
-      const devDependencies = packageJsonContents.devDependencies || {};
-
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const installPackages = (pkgList: any, isDev = false) => {
-        const spinner = ora(isDev ? "Installing dev dependencies..." : "Installing dependencies...").start();
-
-        try {
-          const commands = pkgList.map(([pkgName, version]: [pkgName: string, version: string]) => {
-            const pkg = `${pkgName}@${version}`;
-            return getInstallCommand(options.packageManager, pkg, isDev);
-          });
-
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          commands.forEach((command: any) => {
-            execSync(command, { stdio: "ignore", cwd: options.projectDir });
-          });
-
-          spinner.succeed(`${chalk.green("Successfully installed")} ${isDev ? "dev dependencies" : "dependencies"}`);
-        } catch (error) {
-          console.log(error);
-          spinner.fail(`${chalk.red("Failed to install")} ${isDev ? "dev dependencies" : "dependencies"}`);
+      try {
+        execSync(command, { stdio: "ignore", cwd: options.projectDir });
+        spinner.succeed(chalk.green("Successfully installed dependencies"));
+      } catch (error) {
+        // pnpm v10+ exits non-zero when freshly added dependencies ship build
+        // scripts that haven't been approved (ERR_PNPM_IGNORED_BUILDS). The
+        // packages are already installed, so approve them non-interactively to
+        // run their build scripts (e.g. Prisma's client generation).
+        const nodeModulesExists = existsSync(path.join(options.projectDir, "node_modules"));
+        if (options.packageManager === "pnpm" && nodeModulesExists) {
+          try {
+            execSync("pnpm approve-builds --all", { stdio: "ignore", cwd: options.projectDir });
+            spinner.succeed(chalk.green("Successfully installed dependencies"));
+          } catch {
+            spinner.fail(chalk.red("Failed to install dependencies"));
+            logger.error(`Try running "${command}" manually inside ${options.projectName}.`);
+          }
+        } else {
+          spinner.fail(chalk.red("Failed to install dependencies"));
+          logger.error(`Try running "${command}" manually inside ${options.projectName}.`);
+          if (error instanceof Error) {
+            logger.error(error.message);
+          }
         }
-      };
-
-      console.log("\n");
-      installPackages(Object.entries(dependencies));
-
-      console.log("\n");
-      installPackages(Object.entries(devDependencies), true);
-
-      logger.info("Packages installed successfully");
+      }
     }
 
     printSuccessMessage(options.packageManager, options.projectName);

@@ -9,14 +9,16 @@ type InstallPackagesOptions = CLIOptions & {
   databaseProvider: DatabaseProvider;
 };
 // This runs the installer for all the packages that the user has selected
-export const installPackages = (options: InstallPackagesOptions) => {
+export const installPackages = async (options: InstallPackagesOptions) => {
   const { packages } = options;
   logger.info("Adding boilerplate...");
 
   for (const [name, pkgOpts] of Object.entries(packages)) {
     if (pkgOpts.inUse) {
       const spinner = ora(`Boilerplating ${name}...`).start();
-      pkgOpts.installer(options);
+      // some installers are async (e.g. analytics installers that format with
+      // prettier); await so the spinner and subsequent steps don't race ahead.
+      await pkgOpts.installer(options);
       spinner.succeed(chalk.green(`Successfully setup boilerplate for ${chalk.green.bold(name)}`));
     }
   }

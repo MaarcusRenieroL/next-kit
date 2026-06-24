@@ -65,7 +65,7 @@ export const availablePackages = [
 ] as const;
 export type AvailablePackages = (typeof availablePackages)[number];
 
-export type Installer = (opts: CLIOptions) => void;
+export type Installer = (opts: CLIOptions) => void | Promise<void>;
 
 export type PkgInstallerMap = {
   [pkg in AvailablePackages]: {

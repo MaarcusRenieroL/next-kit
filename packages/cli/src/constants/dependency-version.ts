@@ -66,7 +66,7 @@ export const dependencyVersionMap = {
   "@trpc/react-query": "^11.0.0-rc.566",
   "@trpc/server": "^11.0.0-rc.566",
   "client-only": "^0.0.1",
-  "@trpc/next": "^11.0.0-rc.446",
+  "@trpc/next": "^11.0.0-rc.566",
 
   superjson: "^2.2.1",
 
@@ -95,6 +95,7 @@ export const dependencyVersionMap = {
 
   // Analytics
   "@vercel/analytics": "^1.5.0",
+  "@next/third-parties": "^14.2.13",
 } as const;
 
 export type AvailableDependencies = keyof typeof dependencyVersionMap;
